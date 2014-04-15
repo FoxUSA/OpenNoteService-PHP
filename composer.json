@@ -1,0 +1,14 @@
+{
+    "require": {
+        "slim/slim": "2.*"
+    },
+    
+    "autoload": {
+        "psr-4": {
+        	"controller\\": "controller/",
+        	"model\\": "model/",
+        	"model\\pdo\\": "model/pdo/",
+        	"model\\dataTypes\\" :"model/dataTypes/"
+   		}
+    }
+}
