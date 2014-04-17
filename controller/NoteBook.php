@@ -96,7 +96,7 @@ abstract class NoteBook{
             
             $originNote=$model->getNote($note->originNoteID);//just make sure we can get it and no exception is thrown
             
-            if($token->userID!=$serverNote->userID) //they have to own the note
+            if($token->userID!=$originNote->userID) //they have to own the note
                 return fale;
             return true;
         }
