@@ -92,16 +92,16 @@
                 catch(\Exception $e){
                     $app->response->setStatus(500); //return error code
                     return;
-                }                
+                }               
 			});
         
         //delete note
-            $app->delete("/note/", function () use ($app){ 
+            $app->delete("/note/:id", function ($id) use ($app){ 
                 try{
                     $token = $app->request->headers->get("token");
                     $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
                     
-                    $note = json_decode($app->request->getBody());
+                    $note = \controller\NoteBook::getNote(Config::getModel(), $tokenServer, $id); //get note
                     $note = \controller\NoteBook::removeNote(Config::getModel(), $tokenServer, $note); 
                 }
                 catch(\controller\ServiceException $e){

@@ -65,7 +65,6 @@ abstract class NoteBook{
                 throw new \controller\ServiceException("Must have a vaid note",422);
             
             $model->removeNote($note);
-            ;
         }
         
         /**
