@@ -178,13 +178,13 @@
                 }
             }); 
          
-        //Update folder
-          $app->delete("/folder/", function () use ($app) {
+        //Delete folder
+          $app->delete("/folder/:id", function ($id) use ($app) {
                 try{
                     $token = $app->request->headers->get("token");
                     $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
                     
-                    $folder = json_decode($app->request->getBody());
+                    $folder = \controller\NoteBook::getFolder(Config::getModel(), $tokenServer, $id); //get note
                     \controller\NoteBook::removeFolder(Config::getModel(), $tokenServer, $folder); //remove folder
                 }
                 catch(\controller\ServiceException $e){
