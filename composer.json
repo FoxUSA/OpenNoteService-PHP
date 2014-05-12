@@ -2,13 +2,15 @@
     "require": {
         "slim/slim": "2.*"
     },
-    
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
     "autoload": {
         "psr-4": {
-        	"controller\\": "controller/",
-        	"model\\": "model/",
-        	"model\\pdo\\": "model/pdo/",
-        	"model\\dataTypes\\" :"model/dataTypes/"
+        	"controller\\": "Service/controller/",
+        	"model\\": "Service/model/",
+        	"model\\pdo\\": "Service/model/pdo/",
+        	"model\\dataTypes\\" :"Service/model/dataTypes/"
    		}
     }
 }
