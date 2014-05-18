@@ -37,12 +37,15 @@
 		
 		//register  
 			$app->post("/user/:user&:password", function ($user, $password)  use ($app){
-				if(\Config::$registrationEnabled){//dont allow them to execute this call if it is disabled
+				$ip = $_SERVER["REMOTE_ADDR"];
+				
+				if(!\Config::getRegistrationEnabled()){//dont allow them to execute this call if it is disabled
 					$app->response->setStatus(503); //return error code
+					return;
 				}
 					
 				try{
-					$app->response->setBody(json_encode(\controller\Authenticater::login($user,$password, Config::getModel())));
+					$app->response->setBody(json_encode(\controller\Authenticater::register($user,$password, $ip, Config::getModel())));
 				}
 				catch(\controller\ServiceException $e){
 					$app->response->setStatus($e->getCode()); //return error code

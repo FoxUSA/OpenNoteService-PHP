@@ -24,7 +24,7 @@
 		 * @param password - the password fort the user
 		 * @param model - the model to use
 		 */
-		public static function register($userName, $password, \model\IModel $model){
+		public static function register($userName, $password, $ip, \model\IModel $model){
 	
 			if(self::validateUsername($userName))
 				throw new \controller\ServiceException("Invalid username", 400);
@@ -35,15 +35,15 @@
 			}
 			catch(\Exception $e){}//no user found exception
 			
-			
 			$user = new \model\dataTypes\User();
+				$user->userName = $userName;
+				$user->password = crypt($password);//hash password
+			$user = $model->createUser($user);
 			
-			$user->userName = $userName;
-			$user->password = crypt($password);//hash password
-
-			$user = $model.createUser($user);
+			$expireTime = new \DateTime("now");
+			$expireTime->add(new \DateInterval("PT10H"));
 			
-			return $model->createToken($user->id, $ip, $token, $expireTime->format("Y-m-d H:i:s"));
+			return $model->createToken($user->id, $ip, bin2hex(openssl_random_pseudo_bytes(16)), $expireTime->format("Y-m-d H:i:s"));
 		}
 
 		/**

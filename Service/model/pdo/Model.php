@@ -345,7 +345,7 @@
 		 * @return \model\dataTypes\User - the user with db ID
 		 */
 		public function createUser(\model\dataTypes\User $user){
-			$result = Core::query("INSERT INTO folder(userName, password) VALUES(?,?);", array($user->userName, $user->password));
+			$result = Core::query("INSERT INTO users(userName, password) VALUES(?,?);", array($user->userName, $user->password));
 			$user->id = Core::getInsertID();
 			return $user;
 		}

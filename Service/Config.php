@@ -50,12 +50,16 @@
 		/**
 		 * Upload
 		 */
-		 	public static $uploadEnabled = true;//Default: true. Allwer users to upload files.
+			public static function getUploadEnabled(){
+				return true;//Default: true. Allwer users to upload files.
+			}
 			
 		/**
 		 * Registration
 		 */
-		 	public static $registrationEnabled = true; //Default: true. Allow users to register.
+			public static function getRegistrationEnabled(){
+				return true;//Default: true. Allow users to register.
+			}
 			
 		/**
 		 * Security
