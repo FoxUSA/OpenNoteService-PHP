@@ -3,9 +3,6 @@
 	class User{
 		public $id;
 		public $userName;
-		public $assword;
-		
-		public $lastLoginIP;
-		public $lastLoginTime;
+		public $password;
 	}
 ?>

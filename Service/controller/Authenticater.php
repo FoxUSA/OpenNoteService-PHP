@@ -19,34 +19,31 @@
 		}
 		
 		/**
-		 * register a user
+		 * Register a user
 		 * @param userName - the username to register
 		 * @param password - the password fort the user
+		 * @param model - the model to use
 		 */
-		public static function register($userName, $password){
+		public static function register($userName, $password, \model\IModel $model){
 	
-			if(self::validateUsername($userName)){
-				echo "Invalid username";
-				return;
-			}
+			if(self::validateUsername($userName))
+				throw new \controller\ServiceException("Invalid username", 400);
 	
-			$result = Core::query("SELECT COUNT(*) AS count FROM users WHERE userName= ?",array($userName));
-			
-			if($result[0]["count"]!=0){
-				echo "The username is taken. Please try something else.";
-				return;
+			try{
+				$model->getUser($userName);//see if we can get it
+				throw new \controller\ServiceException("Username already in use", 409);;
 			}
-
-			//Encrypting password
-			$password = crypt($password);//hash password
-
-			Core::query("INSERT INTO users(userName, password, lastLoginIP) VALUES(?,?,?);",array($userName,$password,$_SERVER['REMOTE_ADDR']));
+			catch(\Exception $e){}//no user found exception
 			
-			$_SESSION["userID"] = Core::getInsertID();
-			echo "Thank You For Registering
-				<script type=\"text/javascript\">
-					document.location.href =\"../../\";
-				</script>";
+			
+			$user = new \model\dataTypes\User();
+			
+			$user->userName = $userName;
+			$user->password = crypt($password);//hash password
+
+			$user = $model.createUser($user);
+			
+			return $model->createToken($user->id, $ip, $token, $expireTime->format("Y-m-d H:i:s"));
 		}
 
 		/**

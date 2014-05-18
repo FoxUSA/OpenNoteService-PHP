@@ -22,7 +22,8 @@
 	$app = new \Slim\Slim();
 	$app->contentType("application/json");
 	 
-	/** rest scheme
+	/** 
+	 * REST scheme
 	 * GET to retrieve and search data
 	 * POST to add data
 	 * PUT to update data
@@ -35,8 +36,22 @@
 			});
 		
 		//register  
-			//if(Config::$registrationEnabled&&isset($_POST["register"],$_POST["userName"],$_POST["password"]))//dont allow them to execute this call if it is disabled
-				//Authenticater::register($_POST["userName"],$_POST["password"]);
+			$app->post("/user/:user&:password", function ($user, $password)  use ($app){
+				if(\Config::$registrationEnabled){//dont allow them to execute this call if it is disabled
+					$app->response->setStatus(503); //return error code
+				}
+					
+				try{
+					$app->response->setBody(json_encode(\controller\Authenticater::login($user,$password, Config::getModel())));
+				}
+				catch(\controller\ServiceException $e){
+					$app->response->setStatus($e->getCode()); //return error code
+					return;
+				}
+				catch(\Exception $e){
+					$app->response->setStatus(500); //return error code
+				}
+			});
 			
 		//login  
 			$app->post("/token/:user&:password", function ($user, $password)  use ($app){
@@ -117,12 +132,17 @@
 	
 	//Folder 
         //Get Folder
-            $app->get("/folder/(:levels)(/:id)", function ($levels=0, $id=null) use ($app) {
+            $app->get("/folder/", function () use ($app) {
                 try{
+                	//get query
+	                	$id = $app->request()->get("id");
+	                	$levels = $app->request()->get("levels") != null ? $app->request()->get("levels") : 0; //default
+	                	$includeNotes = $app->request()->get("includeNotes");
+                	
                     $token = $app->request->headers->get("token");
                     $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
                     
-                    $folder = \controller\NoteBook::getFolder(Config::getModel(), $tokenServer, $id, $levels); //get folder
+                    $folder = \controller\NoteBook::getFolder(Config::getModel(), $tokenServer, $id, $levels, $includeNotes); //get folder
                     
                     $app->response->setBody(json_encode($folder)); //return it
                 }
@@ -199,13 +219,6 @@
 		
 	$app->run();
 		
-	//move a note
-		if(isset($_POST["moveNote"],$_POST["noteID"],$_POST["newParrentID"]))
-			NoteEditor::moveNote(Config::getModel(), $_POST["noteID"],$_POST["newParrentID"]);
-		
-	//get folder List
-		if(isset($_POST["getFolderList"]))
-			NoteBook::getFolderList(Config::getModel());
 		
 	//search
 		if(isset($_POST["search"],$_POST["searchString"]))

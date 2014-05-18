@@ -253,122 +253,131 @@
 			return $result[0]["folderID"];
 		}
 			
-		//Authentication
-			/**
-			 * Create a token
-			 * @param userID - the userID who the token is for
-			 * @param ip - the requesters ip
-			 * @param token - the token string
-			 * @param expireTime - the time the token is valid to
-			 */
-			public function createToken($userID, $ip, $token, $expireTime){
-				Core::query("INSERT INTO token(userID,ip,token,expires) VALUES(?,?,?,?)",array($userID, $ip, $token, $expireTime));//Create a token record
-				return $this->getTokenFromID(Core::getInsertID());
-				
-			}
+	//Authentication
+		/**
+		 * Create a token
+		 * @param userID - the userID who the token is for
+		 * @param ip - the requesters ip
+		 * @param token - the token string
+		 * @param expireTime - the time the token is valid to
+		 */
+		public function createToken($userID, $ip, $token, $expireTime){
+			Core::query("INSERT INTO token(userID,ip,token,expires) VALUES(?,?,?,?)",array($userID, $ip, $token, $expireTime));//Create a token record
+			return $this->getTokenFromID(Core::getInsertID());
 			
-			/**
-			 * Get token
-			 * @param token - token string
-			 * @return - return object of \model\dataTypes\Token
-			 */
-			public function getToken($token){
-				$result = Core::query("SELECT id, userID, ip, token, issued, expires FROM token WHERE token = ?;",array($token));//get the note
-				
-				if(count($result)==0)
-					throw new \Exception("Could not find token");
-				
-				if(count($result)>1)
-					throw new \Exception("Found more than one token");
-				
-				$token = new \model\dataTypes\Token();
-					$token->id = $result[0]["id"];
-					$token->userID = $result[0]["userID"];
-					$token->ip = $result[0]["ip"];
-					$token->token = $result[0]["token"];
-					$token->issued = $result[0]["issued"];
-					$token->expires = $result[0]["expires"];
-				
-				return $token;
-			}
+		}
+		
+		/**
+		 * Get token
+		 * @param token - token string
+		 * @return - return object of \model\dataTypes\Token
+		 */
+		public function getToken($token){
+			$result = Core::query("SELECT id, userID, ip, token, issued, expires FROM token WHERE token = ?;",array($token));//get the note
 			
-			/**
-			 * Get token
-			 * @param id - the token id to get
-			 * @return - return object of \model\dataTypes\Token
-			 */
-			public function getTokenFromID($id){
-				$result = Core::query("SELECT id, userID, ip, token, issued, expires FROM token WHERE id = ?;",array($id));//get the note
-				
-				if(count($result)==0)
-					throw new \Exception("Could not find token");
-				
-				if(count($result)>1)
-					throw new \Exception("Found more than one token");
-				
-				$token = new \model\dataTypes\Token();
-					$token->id = $result[0]["id"];
-					$token->userID = $result[0]["userID"];
-					$token->ip = $result[0]["ip"];
-					$token->token = $result[0]["token"];
-					$token->issued = $result[0]["issued"];
-					$token->expires = $result[0]["expires"];
-				
-				return $token;
-			}
+			if(count($result)==0)
+				throw new \Exception("Could not find token");
 			
-			/**
-			 * Get user
-			 * @param userName - the username to get the record
-			 * @return - return object of \model\dataTypes\User
-			 */
-			public function getUser($userName){
-				$result = Core::query("SELECT id, userName, password, lastLoginIP, lastLoginTime FROM users WHERE userName = ?",array($userName));
-				
-				if(count($result)==0)
-					throw new \Exception("Could not find uer");
-				
-				if(count($result)>1)
-					throw new \Exception("Found more than one user");
-				
-				$user = new \model\dataTypes\User();
-					$user->id = $result[0]["id"];
-					$user->userName = $result[0]["userName"];
-					$user->password = $result[0]["password"];
-					$user->lastLoginIP = $result[0]["lastLoginIP"];
-					$user->lastLoginTime = $result[0]["lastLoginTime"];
-					
-				return $user;
-			}
+			if(count($result)>1)
+				throw new \Exception("Found more than one token");
 			
-			/**
-			 * Invalidate token
-			 * @param token - token string
-			 */
-			public function invalidateToken($token){
-				Core::query("DELETE FROM token WHERE token = ?;",array($token));//get the note
-			}
+			$token = new \model\dataTypes\Token();
+				$token->id = $result[0]["id"];
+				$token->userID = $result[0]["userID"];
+				$token->ip = $result[0]["ip"];
+				$token->token = $result[0]["token"];
+				$token->issued = $result[0]["issued"];
+				$token->expires = $result[0]["expires"];
 			
-		//Authorization
-			/**
-			 * checks if the user owns the note
-			 * @param noteID - the noteid to check and see if the user owns it
-			 * @return - true if the user owns the note
-			 */
-			private function doesUserOwnNote($noteID, $userID){
-				if($noteID==null)
-					return TRUE;
-					
-				$note = Core::query("SELECT id FROM note WHERE id = ? AND userID = ?;",array($noteID, $userID)); 
-				return count($note)==1;
-			}
+			return $token;
+		}
+		
+		/**
+		 * Get token
+		 * @param id - the token id to get
+		 * @return - return object of \model\dataTypes\Token
+		 */
+		public function getTokenFromID($id){
+			$result = Core::query("SELECT id, userID, ip, token, issued, expires FROM token WHERE id = ?;",array($id));//get the note
 			
-			/**
-			 * checks if the user owns the folder
-			 * @param folderID - the folderID to check and see if the user owns
-			 * @return - true if the user owns the folderID
-			 */
-			private function doesUserOwnFolder($folderID, $userID){
+			if(count($result)==0)
+				throw new \Exception("Could not find token");
+			
+			if(count($result)>1)
+				throw new \Exception("Found more than one token");
+			
+			$token = new \model\dataTypes\Token();
+				$token->id = $result[0]["id"];
+				$token->userID = $result[0]["userID"];
+				$token->ip = $result[0]["ip"];
+				$token->token = $result[0]["token"];
+				$token->issued = $result[0]["issued"];
+				$token->expires = $result[0]["expires"];
+			
+			return $token;
+		}
+		
+		/**
+		 * Get user
+		 * @param userName - the username to get the record
+		 * @return - return object of \model\dataTypes\User
+		 */
+		public function getUser($userName){
+			$result = Core::query("SELECT id, userName, password FROM users WHERE userName = ?",array($userName));
+			
+			if(count($result)==0)
+				throw new \Exception("Could not find user");
+			
+			if(count($result)>1)
+				throw new \Exception("Found more than one user");
+			
+			$user = new \model\dataTypes\User();
+				$user->id = $result[0]["id"];
+				$user->userName = $result[0]["userName"];
+				$user->password = $result[0]["password"];
+				
+			return $user;
+		}
+		
+		/**
+		 * Create a user
+		 * @param \model\dataTypes\User $user - the partual user record to create
+		 * @return \model\dataTypes\User - the user with db ID
+		 */
+		public function createUser(\model\dataTypes\User $user){
+			$result = Core::query("INSERT INTO folder(userName, password) VALUES(?,?);", array($user->userName, $user->password));
+			$user->id = Core::getInsertID();
+			return $user;
+		}
+		
+		/**
+		 * Invalidate token
+		 * @param token - token string
+		 */
+		public function invalidateToken($token){
+			Core::query("DELETE FROM token WHERE token = ?;",array($token));//get the note
+		}
+		
+	//Authorization
+		/**
+		 * checks if the user owns the note
+		 * @param noteID - the noteid to check and see if the user owns it
+		 * @return - true if the user owns the note
+		 */
+		private function doesUserOwnNote($noteID, $userID){
+			if($noteID==null)
+				return TRUE;
+				
+			$note = Core::query("SELECT id FROM note WHERE id = ? AND userID = ?;",array($noteID, $userID)); 
+			return count($note)==1;
+		}
+		
+		/**
+		 * checks if the user owns the folder
+		 * @param folderID - the folderID to check and see if the user owns
+		 * @return - true if the user owns the folderID
+		 */
+		private function doesUserOwnFolder($folderID, $userID){
 				if($folderID==null)//it can be null. If it isnt make sure we own the folder
 					throw new \Exception("doesUserOwnFolder function cannot accept a null folderID.");
 					
