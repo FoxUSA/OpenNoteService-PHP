@@ -13,7 +13,7 @@
 		 */
 			public static function dbConfig(){
 				//Un-comment desired database type
-				return self::mysqlConfig();
+					return self::mysqlConfig();
 				//return self::sqliteConfig();
 			}
 
@@ -72,10 +72,23 @@
 		 	}
 		 	
 		/**
+		 * Config
+		 */
+		 	/**
+		 	 * @return - array to send client
+		 	 */
+		 	public static function getInitialConfig(){
+		 		return array(
+		 			"uploadEnabled" => self::getUploadEnabled(),
+		 			"registrationEnabled" => self::getRegistrationEnabled()
+		 		);
+		 	}
+		 	
+		/**
 		 * Update
 		 */
 		 	public static $checkForUpdates = false; //Default: true; Check for updates
-		 	public static $updateServicePath = "http://stardrive.us/UpdateService/index.php?appName=OpenNote"; //Path to version service
+		 	public static $updateServicePath = "http://stardrive.us/UpdateService/?appName=OpenNote"; //Path to version service
 		 	public static $version = "13.12.0-1";
 			public static $releaseChannel = "dev"; //Default: prod; Release channel. Prod is production level release. Dev is current deployment release.s
 				

@@ -4,9 +4,9 @@
  * 	Author: Jacob Liscom
  *	Version: 13.11.0
 **/
-	include_once dirname(__FILE__)."/common.php";
+	include_once dirname(__FILE__)."/../../vendor/autoload.php";
 	 
-	if(Config::$uploadEnabled){
+	if(Config::getUploadEnabled()){
 		$diskName = sprintf("%s_%d",time(),rand());//the name we are going to store it under
 		$originalName = $_FILES["upload"]["name"];//the name they sent us
 		

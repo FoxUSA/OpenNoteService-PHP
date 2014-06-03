@@ -7,8 +7,6 @@
  * Handles the java script to php calls
 **/
 
-//TODO restful service
-	//javascript consumes the php service
 	//then have multple back ends.(NodeJS?)
 //TODO default value
 
@@ -20,7 +18,7 @@
 		\controller\Util::cleanGets();
 	
 	$app = new \Slim\Slim();
-	$app->contentType("application/json");
+	$app->contentType("application/json");//we return json on almost everything
 	 
 	/** 
 	 * REST scheme
@@ -219,7 +217,22 @@
                     return;
                 }
             });   
-		
+	//Config
+		//Get config values
+          	$app->get("/config/", function () use ($app) {
+          		try{
+          			$app->response->setBody(json_encode(Config::getInitialConfig()));
+          		}
+          		catch(\controller\ServiceException $e){
+          			$app->response->setStatus($e->getCode()); //return error code
+          			return;
+          		}
+          		catch(\Exception $e){
+          			$app->response->setStatus(500); //return error code
+          			return;
+          		}
+          	});
+          
 	$app->run();
 		
 		
