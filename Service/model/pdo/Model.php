@@ -24,7 +24,7 @@
 		 * @return - the id of the inserted record
 		 */ 
 		public function uploadFile($originalName, $diskName, $userID){
-			Core::query("INSERT INTO uploads(originalName, diskName, userID) VALUES(?,?,?)",array($originalName,$diskName, $userID));
+			Core::query("INSERT INTO uploads(originalName, diskName, userID) VALUES(?,?,?);",array($originalName,$diskName, $userID));
 			return Core::getInsertID();
 		}
 		
@@ -32,8 +32,8 @@
 		 * @param id - the id of the file to get
 		 * @return  - the upload record to get
 		 */ 
-		public function getUploadFile($id, $userID){
-			return Core::query("SELECT originalName, diskName, userID FROM uploads WHERE id=? AND userID = ?",array($id, $userID));
+		public function getUploadFile($id){
+			return Core::query("SELECT originalName, diskName, userID FROM uploads WHERE id=?;",array($id));
 		}
 		
 		/**

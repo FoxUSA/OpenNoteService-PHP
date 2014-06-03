@@ -98,12 +98,5 @@
 				 public static function getWebRoot(){
 				 	return str_replace("\\", "/",str_replace(realpath($_SERVER["DOCUMENT_ROOT"]),"",realpath(dirname(__FILE__))))."/";
 				 }
-				 
-			/**
-			 * Ckeditor upload manager
-			 */
-			 	public static function getUploadPath(){
-			 		return "/OpenNote/controller/upload.php";
-				}
 	}
 ?>

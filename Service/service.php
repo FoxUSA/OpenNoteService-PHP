@@ -232,6 +232,11 @@
           			return;
           		}
           	});
+          	
+   	//File
+    	$app->post("/upload/", function () use ($app) {
+    		startUpload
+    	});
           
 	$app->run();
 		

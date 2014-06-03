@@ -4,17 +4,25 @@
  * 	Author: Jacob Liscom
  *	Version: 13.11.0
 **/
-include_once dirname(__FILE__)."/../../vendor/autoload.php";
+namespace upload;
+ob_start();
 
-class Download{
-	public function Download(){
+include_once dirname(__FILE__)."/../../vendor/autoload.php";
+include_once dirname(__FILE__)."/../Config.php";
+
+abstract class Download{
+	public static function startDownload(){
 		$result = null;
 		
-		if(isset($_GET["uploadID"])) //get existing note 
-			$result = Model::getUploadFile($_GET["uploadID"]);//syntax index.php?id=$id\"
+		if(isset($_GET["uploadID"])){ //get existing note 
+			$model = \Config::getModel();
+			$result = $model->getUploadFile($_GET["uploadID"]);//syntax index.php?id=$id\"
+		}		
 		
-		if(count($result)==0)
-			return; //no results	
+		if(count($result)==0){
+			echo "File not found";
+			return; //no results
+		}	
 		
 		$originalName = $result[0]["originalName"];
 		$diskName = $result[0]["diskName"];
@@ -40,5 +48,5 @@ class Download{
 	}
 }
 
-new Download();
+\upload\Download::startDownload();
 ?>

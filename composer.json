@@ -10,7 +10,8 @@
         	"controller\\": "Service/controller/",
         	"model\\": "Service/model/",
         	"model\\pdo\\": "Service/model/pdo/",
-        	"model\\dataTypes\\" :"Service/model/dataTypes/"
+        	"model\\dataTypes\\" :"Service/model/dataTypes/",
+        	"upload\\" : "Service/upload/"
    		}
     }
 }
