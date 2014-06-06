@@ -28,18 +28,19 @@
 			//public function searchNotes($search, $userID);
 			
 			/**
+			 * @param id - the id to store the file under
 			 * @param originalName - the original name and type
 			 * @param diskName - the name of the file we stored
 			 * @return - the id of the inserted record
 			 */ 
-			//public function uploadFile($originalName, $diskName, $userID);
+			public function uploadFile($id, $originalName, $diskName, $userID);
 			
 			/**
 			 * Get a uploaded File
 			 * @param id - the id of the file to get
 			 * @return  - the upload record to get
 			 */ 
-			//public function getUploadFile($id, $userID);
+			public function getUploadFile($id);
 		
 		//Folder
 			/**

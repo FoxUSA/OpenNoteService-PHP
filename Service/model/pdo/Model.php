@@ -19,13 +19,14 @@
 		}
 		
 		/**
+		 * @param id - the id for the file
 		 * @param originalName - the original name and type
 		 * @param diskName - the name of the file we stored
 		 * @return - the id of the inserted record
 		 */ 
-		public function uploadFile($originalName, $diskName, $userID){
-			Core::query("INSERT INTO uploads(originalName, diskName, userID) VALUES(?,?,?);",array($originalName,$diskName, $userID));
-			return Core::getInsertID();
+		public function uploadFile($id, $originalName, $diskName, $userID){
+			Core::query("INSERT INTO uploads(id, originalName, diskName, userID) VALUES(?, ?,?,?);",array($id,$originalName,$diskName, $userID));
+			return $id;
 		}
 		
 		/**

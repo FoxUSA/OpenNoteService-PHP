@@ -158,7 +158,7 @@
             });
             
 		//Save folder
-		  $app->post("/folder/", function () use ($app) {
+		  	$app->post("/folder/", function () use ($app) {
                 try{
                     $token = $app->request->headers->get("token");
                     $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
@@ -234,9 +234,44 @@
           	});
           	
    	//File
-    	$app->post("/upload/", function () use ($app) {
-    		startUpload
-    	});
+   		//Upload
+	    	$app->post("/file/", function () use ($app) {
+	    		try{
+	    			if(!Config::getUploadEnabled()){//Check to see if this is allowed
+	    				$app->response->setStatus(503); //return error code
+	    				return;
+	    			}
+	    			
+	    			$app->contentType("text/html");//Override other calls
+	    			$app->response->setBody(\controller\File::startUpload(Config::getModel()));
+	    		}
+	    		catch(\controller\ServiceException $e){
+	    			$app->response->setStatus($e->getCode()); //return error code
+	    			return;
+	    		}
+	    		catch(\Exception $e){
+	    			$app->response->setStatus(500); //return error code
+	    			return;
+	    		}
+	    		
+	    	});
+    	
+	    //Download
+	    	$app->get("/file/:id", function ($id) use ($app) {
+	    		try{
+	    			$app->contentType("application/octet-stream");//Override other calls
+	    			\controller\File::startDownload(Config::getModel(), $id);
+	    		}
+	    		catch(\controller\ServiceException $e){
+	    			$app->response->setBody($e->getMessage());
+	    			$app->response->setStatus($e->getCode()); //return error code
+	    			return;
+	    		}
+	    		catch(\Exception $e){
+	    			$app->response->setStatus(500); //return error code
+	    			return;
+	    		}
+			});
           
 	$app->run();
 		

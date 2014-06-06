@@ -29,13 +29,13 @@ CREATE TABLE IF NOT EXISTS `note` (
 
 DROP TABLE IF EXISTS `uploads`;
 CREATE TABLE IF NOT EXISTS `uploads` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(128) NOT NULL,
   `originalName` varchar(255) NOT NULL,
   `diskName` varchar(255) NOT NULL,
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userID` (`userID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ;
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (

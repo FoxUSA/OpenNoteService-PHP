@@ -9,7 +9,7 @@
 	abstract class Config{
 		
 		/**
-		 * Data base details
+		 * Database details
 		 */
 			public static function dbConfig(){
 				//Un-comment desired database type
@@ -54,6 +54,14 @@
 				return true;//Default: true. Allwer users to upload files.
 			}
 			
+			/**
+			 * Get upload path relative to File class
+			 */
+				public static function getUploadPath(){
+					return "./upload/";
+				}
+			
+			
 		/**
 		 * Registration
 		 */
@@ -92,11 +100,11 @@
 		 	public static $version = "13.12.0-1";
 			public static $releaseChannel = "dev"; //Default: prod; Release channel. Prod is production level release. Dev is current deployment release.s
 				
-			/**
-			 * Get web root
-			 */
-				 public static function getWebRoot(){
-				 	return str_replace("\\", "/",str_replace(realpath($_SERVER["DOCUMENT_ROOT"]),"",realpath(dirname(__FILE__))))."/";
-				 }
+		/**
+		 * Get web root
+		 */
+			 public static function getWebRoot(){
+			 	return str_replace("\\", "/",str_replace(realpath($_SERVER["DOCUMENT_ROOT"]),"",realpath(dirname(__FILE__))))."/";
+			 }
 	}
 ?>
