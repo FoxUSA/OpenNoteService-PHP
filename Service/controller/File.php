@@ -10,14 +10,10 @@ abstract class File{
 	/**
 	 * Upload a file
 	 * @param model - model to use
+	 * @param tokenServer - the validated token
 	 */
-	public static function startUpload(\model\IModel $model){
+	public static function startUpload(\model\IModel $model, $tokenServer){
 		$url;
-		
-		if($_GET["token"] == null)
-			throw new \controller\ServiceException("Unauthorized",401);
-		
-		$tokenServer = \controller\Authenticater::validateToken($_GET["token"], $_SERVER["REMOTE_ADDR"], $model);
 		
 		$diskName = self::createGUID();//the name we are going to store it under
 		$originalName = $_FILES["upload"]["name"];//the name they sent us
@@ -37,10 +33,8 @@ abstract class File{
 				      	if(!move_uploaded_file($_FILES["upload"]["tmp_name"], sprintf("%s%s",\Config::getUploadPath(),$diskName)))
 				         	$message = "Error moving uploaded file. Check the script is granted Read/Write/Modify permissions.";
 						
-						if($message==""){
-							$url = sprintf("http://%s%s%s%s",$_SERVER["SERVER_NAME"],\Config::getWebRoot() ,"file/", $model->uploadFile(self::createGUID(),$originalName, $diskName, $tokenServer->userID));//FIXME
-							echo $url;
-						}
+						if($message=="")
+							$url = sprintf("http://%s%s%s%s",$_SERVER["SERVER_NAME"],\Config::getWebRoot() ,"file/", $model->uploadFile(self::createGUID(),$originalName, $diskName, $tokenServer->userID));
 		    		}
 		 
 		$funcNum = $_GET["CKEditorFuncNum"];
@@ -51,15 +45,17 @@ abstract class File{
 	 * Download a file
 	 * @param model - model to use
 	 * @param id - id of the file to download
+	 * @param tokenServer - the validated token
 	 */
-	public static function startDownload(\model\IModel $model, $id){
-		ob_start();
-	
+	public static function startDownload(\model\IModel $model, $id, $tokenServer){	
 		$result = $model->getUploadFile($id);
 	
 		if(count($result)!=1)			
 			throw new \controller\ServiceException("File record not found",410);
 
+		if($result[0]["userID"]!=$tokenServer->userID) //make sure they own the file
+			throw new \controller\ServiceException("Not authorized", 401); 
+		
 		$originalName = $result[0]["originalName"];
 		$diskName = sprintf("%s%s",\Config::getUploadPath(),$result[0]["diskName"]);
 	

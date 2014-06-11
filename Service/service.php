@@ -236,14 +236,16 @@
    	//File
    		//Upload
 	    	$app->post("/file/", function () use ($app) {
-	    		try{
+	    		try{	    			
 	    			if(!Config::getUploadEnabled()){//Check to see if this is allowed
 	    				$app->response->setStatus(503); //return error code
 	    				return;
 	    			}
 	    			
+	    			$tokenServer = \controller\Authenticater::validateToken($_GET["token"], $_SERVER["REMOTE_ADDR"], Config::getModel());
+	    			
 	    			$app->contentType("text/html");//Override other calls
-	    			$app->response->setBody(\controller\File::startUpload(Config::getModel()));
+	    			$app->response->setBody(\controller\File::startUpload(Config::getModel(),$tokenServer));
 	    		}
 	    		catch(\controller\ServiceException $e){
 	    			$app->response->setStatus($e->getCode()); //return error code
@@ -259,8 +261,10 @@
 	    //Download
 	    	$app->get("/file/:id", function ($id) use ($app) {
 	    		try{
+	    			ob_start();//buffer response
+	    			$tokenServer = \controller\Authenticater::validateToken($_COOKIE["token"], $_SERVER["REMOTE_ADDR"], Config::getModel());
 	    			$app->contentType("application/octet-stream");//Override other calls
-	    			\controller\File::startDownload(Config::getModel(), $id);
+	    			\controller\File::startDownload(Config::getModel(), $id, $tokenServer);
 	    		}
 	    		catch(\controller\ServiceException $e){
 	    			$app->response->setBody($e->getMessage());
