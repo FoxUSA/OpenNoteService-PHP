@@ -1,14 +1,14 @@
 <?php	
 	namespace model\pdo;
-	class Model implements \model\IModel{
-	
+	class Model implements \model\IModel{		
+		
 	//Note
 		/**
 		* @param search - the string to use to search
 		* @return - the notes that match the search
 		*/
 		public function searchNotes($search, $userID){
-		 	return 	Core::query("SELECT n.id, n.title, n.folderID 
+		 	return	Core::query("SELECT n.id, n.title, n.folderID 
 								FROM note n 
 								WHERE 	(title LIKE ? OR note LIKE ?)
 									AND (n.originNoteID IS NULL OR n.id IN (SELECT MAX(id) FROM note WHERE originNoteID=n.originNoteID)) 

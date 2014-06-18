@@ -40,11 +40,21 @@
 						return new PDO(sprintf("mysql:host=%s;dbname=%s",$dbServer,$dbName), $dbUserName, $dbPassword);
 				}
 				
+				private static $injectedCoreConfig = null;
+				
+				/**
+				 * Setter for config
+				 * @param $config - config object to inject
+				 */
+				public static function setInjectedCoreConfig($config){
+					self::$injectedCoreConfig = $config;
+				}
+				
 			/**
 			 * Which model to use
 			 */
 			public static function getModel(){
-				return new \model\pdo\Model();
+				return new \model\pdo\Model(self::dbConfig());
 			}
 		
 		/**
