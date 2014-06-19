@@ -76,7 +76,7 @@
 		 */
 		public function saveNote($note){
 			Core::query("INSERT INTO note (folderID, originNoteID,title,note,userID) VALUES(?,?,?,?,?);",
-				array($note->folderID,$note->originNoteID,$note->title,$note->note, $note->userID));//parse out for mysql use
+				array($note->folderID,$note->originNoteID,htmlentities($note->title),htmlentities($note->note), $note->userID));//parse out for mysql use
 				
 			return self::getNote(Core::getInsertID());
 		}
@@ -91,7 +91,7 @@
 				$note = new \model\dataTypes\Note();
 				$note->folderID=$result[0]["folderID"];;
 				$note->id=$id;
-				$note->title=$result[0]["title"];
+				$note->title=html_entity_decode($result[0]["title"]);
 				$note->note=html_entity_decode($result[0]["note"]);//de-scape note
 				$note->originNoteID=$result[0]["originNoteID"];
 				$note->userID = $result[0]["userID"];
