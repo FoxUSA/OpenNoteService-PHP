@@ -21,13 +21,13 @@
 			try{
 				if(self::$pdo == NULL)
 					self::$pdo = \Config::dbConfig();
-	 			
-				//ping equivalent
+				
+				//ping equivalents
 					try{
 						self::$pdo->query("SELECT 1");
 					}
 					catch (Exception $e){
-						self::$pdo = dbConfig();
+						self::$pdo = \Config::dbConfig();
 					}
 				}
 			catch (Exception $e){

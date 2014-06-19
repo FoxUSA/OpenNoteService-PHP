@@ -13,6 +13,40 @@
 				\controller\Util::cleanGets();
 		
 			$errors=array();
+			
+			
+			abstract class Install{
+				
+				/**
+				 * Generate config using find and replace
+				 * @param string $pdoMethod
+				 * @param string $username
+				 * @param string $password
+				 * @param string $server
+				 * @param string $dbname
+				 */
+				public static function generateConfig(	$pdoMethod, 
+														$username="", 
+														$password="", 
+														$server="",
+			 											$dbname=""){
+					//generate config
+						$config = file_get_contents("./Config.template");
+						
+					//Insert db values
+						$config = str_replace("@username@",$username,$config);
+						$config = str_replace("@password@",$password,$config);
+						$config = str_replace("@server@",$server,$config);
+						$config = str_replace("@dbname@",$dbname,$config);
+					
+					//Setup mysql pdo as the db type
+						$config = str_replace("//@pdoMethod@",$pdoMethod,$config);
+					
+					//Override current config
+						file_put_contents("./Config.php",$config);
+					
+				}
+			}
 				
 			//Step 0
 				if($_GET==null){
@@ -41,6 +75,16 @@
 								<p><a href='?step=2-mysql'>MySQL</a></p>
 								<p><a href='?step=2-sqlite'>sqlite(Recomended)</a></p>";
 							
+						break;
+						
+					case "2-sqlite":
+						//generate config
+						
+							Install::generateConfig("return self::sqliteConfig();");
+							
+							Config::dbConfig()->exec(file_get_contents("./model/sql/notebook.sqlite.sql"));
+							
+							echo "<script>window.location.href='?step=cleanup'</script>";
 						break;
 						
 					case "2-mysql":
@@ -80,16 +124,34 @@
 								
 								//Test our connection
 									if(\model\pdo\Core::connect()){
-										$_SESSION=$_POST;
-										echo "Connected successfully";
+										
+										//create table structure
+											\model\pdo\Core::query(file_get_contents("./model/sql/notebook.sql"));//execute sql
+										
+										Install::generateConfig("return self::mysqlConfig();",
+																$_POST["username"],
+																$_POST["password"],
+																$_POST["server"],
+																$_POST["dbname"]);
+											
+										echo "<script>window.location.href='?step=cleanup'</script>";
 										return;
 									}
+									else
+										$errors[] = "Could not connect to database";
 							}
 						}
 						
 						$_SESSION["errors"] = $errors;
 						echo "<script>window.location.href='?step=2-mysql'</script>";
 						break;
+						
+					case "cleanup":
+						echo "<p>Install Complete</p>";
+						echo "TODO";
+						//TODO delete template config and one self
+						break;
+						
 					
 				}
 		?>
