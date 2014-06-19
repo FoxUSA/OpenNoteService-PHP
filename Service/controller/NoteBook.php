@@ -34,6 +34,8 @@ abstract class NoteBook{
             $note->id = null; //ignore the id if its passed in
             $note->userID = $token->userID;//force it to be saved under the current user
             
+            $note->note = htmlentities($note->note); //Escape html
+            
             if($note->folderID==null)//notes have to be in folder
                 throw new \controller\ServiceException("FolderID cant be null",412);
             
