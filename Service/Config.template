@@ -72,7 +72,7 @@
 			 * Get upload path relative to File class
 			 */
 				public static function getUploadPath(){
-					return "./upload/";
+					return dirname(__FILE__)."/upload/";
 				}
 			
 			

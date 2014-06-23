@@ -13,7 +13,7 @@ abstract class File{
 	 * @param tokenServer - the validated token
 	 */
 	public static function startUpload(\model\IModel $model, $tokenServer){
-		$url;
+		$url="";
 		
 		$diskName = self::createGUID();//the name we are going to store it under
 		$originalName = $_FILES["upload"]["name"];//the name they sent us
