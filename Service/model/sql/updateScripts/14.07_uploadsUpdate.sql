@@ -24,7 +24,7 @@
 	
 --Escape html
 	UPDATE note
-		SET note = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(note, ">", "&gt;"), "<", "&lt;"), "&", "&amp;"), '"', "&quot;"), "'", "&apos;");
+		SET note = REPLACE(REPLACE(REPLACE(REPLACE(note, ">", "&gt;"), "<", "&lt;"), '"', "&quot;"), "'", "&apos;");
 
 	
 	

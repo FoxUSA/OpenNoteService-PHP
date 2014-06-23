@@ -91,8 +91,8 @@
 				$note = new \model\dataTypes\Note();
 				$note->folderID=$result[0]["folderID"];;
 				$note->id=$id;
-				$note->title=html_entity_decode($result[0]["title"]);
-				$note->note=html_entity_decode($result[0]["note"]);//de-scape note
+				$note->title=html_entity_decode($result[0]["title"], ENT_QUOTES);
+				$note->note=html_entity_decode($result[0]["note"], ENT_QUOTES);//de-scape note
 				$note->originNoteID=$result[0]["originNoteID"];
 				$note->userID = $result[0]["userID"];
                 $note->dateCreated = $result[0]["dateCreated"];
