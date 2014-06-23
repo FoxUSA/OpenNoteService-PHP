@@ -1,4 +1,3 @@
-
 -- Change upload id to varchar
 	ALTER TABLE `uploads` CHANGE `id` `id` VARCHAR( 128 ) NOT NULL ;
 
@@ -22,6 +21,11 @@
 	ALTER TABLE `users` DROP `lastLoginIP`; -- This data can now be found in the token table
 	ALTER TABLE `users` DROP `lastLoginTime`;
 	
+	
+--Escape html
+	UPDATE note
+		SET note = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(note, ">", "&gt;"), "<", "&lt;"), "&", "&amp;"), '"', "&quot;"), "'", "&apos;");
+
 	
 	
 /*
