@@ -18,9 +18,9 @@ This are due to the limitations of the CKEditor.
 
 | Accepted Calls | Use						    | Parameter(s)  | Returns								    | Example Call	    | Notes	    |
 | -------------- | ---------------------------- | ------------- | ----------------------------------------- | ----------------- | --------- | 
-| GET			 | Get a note object 		    | Note ID	    | HTTP Return Code and JSON note object	    | /Service/note/405 | 		    |
-| POST			 | Persist a note object	    | 			    | HTTP Return Code and new JSON note object | /Service/note/    | userID and id are ignored and determined by the server. Notes are insert only and are neve updated. This is how the history works. |
-| DELETE		 | Delete a note and history    | Note ID	    | HTTP Return Code						    | /Service/note/405 | Deletes history |
+| GET			 | Get a note object 		    | id		    | HTTP Return Code and JSON note object	    | /Service/note/405 | 		    |
+| POST			 | Persist a note object	    | 			    | HTTP Return Code and new JSON note object | /Service/note/    | userID and id are ignored and determined by the server. Notes are insert only and are neve updated except when a note is moved to a new folder. All history is also moved to the new filder. |
+| DELETE		 | Delete a note and history    | id		    | HTTP Return Code						    | /Service/note/405 | Deletes history |
 
 Sample Note JSON object
 ```
@@ -62,8 +62,43 @@ Basically how this works is we look at all the notes and build a tree based on t
 
 ###Folder Resource
 
-| Accepted Calls | Use						    | Parameter(s)  | Returns								    | Example Call	    | Notes	    |
-| -------------- | ---------------------------- | ------------- | ----------------------------------------- | ----------------- | --------- | 
-| GET			 | Get a note object 		    | Note ID	    | HTTP Return Code and JSON note object	    | /Service/note/405 | 		    |
-| POST			 | Persist a note object	    | 			    | HTTP Return Code and new JSON note object | /Service/note/    | userID and id are ignored and determined by the server. Notes are insert only and are neve updated. This is how the history works. |
-| DELETE		 | Delete a note and history    | Note ID	    | HTTP Return Code						    | /Service/note/405 | Deletes history |
+| Accepted Calls | Use						    | Parameter(s)  			| Returns								    		| Example Call	    								| Notes	    |
+| -------------- | ---------------------------- | -------------------------	| ------------------------------------------------- | -------------------------------------------------	| --------- | 
+| GET			 | Get a folder object 		    | id, levels, includeNotes	| HTTP Return Code and JSON folder object   		| /Service/folder?id=1&includeNotes=true&levels=1 	| 		    |
+| POST			 | Insert a folder object	    | 			    			| HTTP Return Code and new JSON folder object 		| /Service/folder/    								| userID and id are ignored and determined by the server. Notes are insert only and are neve updated. This is how the history works. |
+| PUT			 | Update a folder				|							| HTTP Return Code and updated JSON folder object 	| /Service/folder/									| foldersInside and notesInside are ignored |
+| DELETE		 | Delete a folder and contents | id	    				| HTTP Return Code						    		| /Service/note/405 								| Deletes subfolders and notes |
+
+
+Sample Folder JSON object with note and subfolder included
+```
+    {
+       "id": "1",
+       "parrentFolderID": null,
+       "name": "Test",
+       "userID": "1",
+       "foldersInside":
+       [
+           {
+               "id": "2",
+               "parrentFolderID": "1",
+               "name": "Test",
+               "userID": "1",
+               "foldersInside": null,
+               "notesInside": null
+           }
+       ],
+       "notesInside":
+       [
+           {
+               "id": "4",
+               "folderID": "1",
+               "originNoteID": "1",
+               "title": "Test Note",
+               "note": "<p>Hello World</p>",
+               "dateCreated": "2014-06-29 13:48:49",
+               "userID": "1"
+           }
+       ]
+    }
+```
