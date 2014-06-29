@@ -1,5 +1,6 @@
 
-Note Resource
+###Note Resource
+
 | Accepted Calls | Use						    | Parameter(s)  | Returns								    | Example Call	    | Notes	    |
 | -------------- | ---------------------------- | ------------- | ----------------------------------------- | ----------------- | --------- | 
 | GET			 | Get a note object 		    | Note ID	    | HTTP Return Code and JSON note object	    | /Service/note/405 | 		    |
