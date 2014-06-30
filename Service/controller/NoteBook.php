@@ -144,8 +144,9 @@ abstract class NoteBook{
          * @param id - the id of the folder to get
          * @param recersiveLevels - number of levels to fetch
          * @param includeNotes - include notes in tree
+         * @param includeNotesNote - include note html in note
          */
-        public static function getFolder(\model\IModel $model, \model\dataTypes\Token $token, $id = null, $recersiveLevels=1, $includeNotes =false){
+        public static function getFolder(\model\IModel $model, \model\dataTypes\Token $token, $id = null, $recersiveLevels=1, $includeNotes =false , $includeNotesHTML = true){
             if($id!=null){//get the root
                 $folder=$model->getFolder($id);
                 
@@ -161,7 +162,7 @@ abstract class NoteBook{
             if($recersiveLevels>=1){//get stuff in our folder
                 $folder->foldersInside = $model->getSubFolders($folder->id, $token->userID);//get whats in our folder
                 if($includeNotes)
-                	$folder->notesInside = $model->getNotesInFolder($folder->id);
+                	$folder->notesInside = $model->getNotesInFolder($folder->id, $includeNotesHTML);
             }
             
             if($recersiveLevels>=2)//get stuff in our folders folders

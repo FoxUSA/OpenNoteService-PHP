@@ -201,7 +201,7 @@
 		 * @param folderID - the folder to get the notes from
 		 * @return - the notes from the folder
 		 */ 
-		public function getNotesInFolder($folderID){
+		public function getNotesInFolder($folderID, $includeNotesHTML = false){
 		    if($folderID==null)//cant be null
                 return;
             
@@ -225,7 +225,10 @@
                 $note->folderID=$result["folderID"];;
                 $note->id=$result["id"];
                 $note->title=$result["title"];
-                $note->note=html_entity_decode($result["note"]);//de-scape note
+                
+                if($includeNotesHTML)
+                	$note->note=html_entity_decode($result["note"]);//de-scape note
+                
                 $note->originNoteID=$result["originNoteID"];
                 $note->userID = $result["userID"];
                 $note->dateCreated =$result["dateCreated"];

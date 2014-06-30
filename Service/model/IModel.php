@@ -77,9 +77,10 @@
 			 
 			/**
 			 * @param folderID - the folder to get the notes from
+			 * @param includeNotesNote - include note html field
 			 * @return - the notes from the folder
 			 */ 
-			public function getNotesInFolder($folderID);
+			public function getNotesInFolder($folderID, $includeNotesHTML);
 			
 			/**
 			 * @param search - the string to use to search

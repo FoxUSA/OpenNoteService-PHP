@@ -62,12 +62,23 @@ Basically how this works is we look at all the notes and build a tree based on t
 
 ###Folder Resource
 
-| Accepted Calls | Use						    | Parameter(s)  			| Returns								    		| Example Call	    								| Notes	    |
-| -------------- | ---------------------------- | -------------------------	| ------------------------------------------------- | -------------------------------------------------	| --------- | 
-| GET			 | Get a folder object 		    | id, levels, includeNotes	| HTTP Return Code and JSON folder object   		| /Service/folder?id=1&includeNotes=true&levels=1 	| 		    |
-| POST			 | Insert a folder object	    | 			    			| HTTP Return Code and new JSON folder object 		| /Service/folder/    								| userID and id are ignored and determined by the server. Notes are insert only and are neve updated. This is how the history works. |
-| PUT			 | Update a folder				|							| HTTP Return Code and updated JSON folder object 	| /Service/folder/									| foldersInside and notesInside are ignored |
-| DELETE		 | Delete a folder and contents | id	    				| HTTP Return Code						    		| /Service/note/405 								| Deletes subfolders and notes |
+| Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
+| -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
+| GET			 | Get a folder object 		    | id, levels, includeNotes, includeNotesHTML 	| HTTP Return Code and JSON folder object   		| /Service/folder?id=1&includeNotes=true&levels=1 	| 		    |
+| POST			 | Insert a folder object	    | 			    								| HTTP Return Code and new JSON folder object 		| /Service/folder/    								| userID, id, foldersInside and notesInside are ignored |
+| PUT			 | Update a folder				|												| HTTP Return Code and updated JSON folder object 	| /Service/folder/									| foldersInside and notesInside are ignored |
+| DELETE		 | Delete a folder and contents | id	    									| HTTP Return Code						    		| /Service/note/405 								| Deletes subfolders and notes |
+
+
+The get call has query parameters
+
+| Column			| Description									| Default value |
+| -------------		| --------------------------------------------- | ------------- |
+| id 				| The id of the folder you want					| none			|
+| levels 			| The levels to travel down 					| 0 			|
+| includeNotes		| Toggle including notesInside in return		| false			|
+| includeNotesHTML	| Toggle including note html body in return		| true			|
+
 
 
 Sample Folder JSON object with note and subfolder included

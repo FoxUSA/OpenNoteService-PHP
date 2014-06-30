@@ -138,12 +138,13 @@
                 	//get query
 	                	$id = $app->request()->get("id");
 	                	$levels = $app->request()->get("levels") != null ? $app->request()->get("levels") : 0; //default
-	                	$includeNotes = $app->request()->get("includeNotes");
+	                	$includeNotes = $app->request()->get("includeNotes")=="true" ? true : false;
+	                	$includeNotesHTML =  $app->request()->get("includeNotesHTML")=="true" ? true : false;
                 	
                     $token = $app->request->headers->get("token");
                     $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
                     
-                    $folder = \controller\NoteBook::getFolder(Config::getModel(), $tokenServer, $id, $levels, $includeNotes); //get folder
+                    $folder = \controller\NoteBook::getFolder(Config::getModel(), $tokenServer, $id, $levels, $includeNotes, $includeNotesHTML); //get folder
                     
                     $app->response->setBody(json_encode($folder)); //return it
                 }
