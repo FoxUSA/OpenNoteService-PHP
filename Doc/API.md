@@ -7,10 +7,13 @@ Most calls are protected. I will not open calls below with the (Open) designatio
 
 We use a token based security. OAuth did not seem a good option considering the ideals of this project.
 
-Most calls use a `token` header. This can be aquired using the token endpoint.
+Most calls use a `token` header to authenticate the calls. This can be aquired using the token endpoint.
 
 The edge case is the file uploader, this uses a GET query parameter when uploading and a cookie when downloading.
 This are due to the limitations of the CKEditor.
+
+Currenty the token length is controlled in the service config.
+In a future release we will support a refresh mechanism.
 
 
 ##Resources
@@ -57,7 +60,7 @@ WHERE 	n.folderID = ?
    AND (SELECT COUNT(*) FROM note WHERE originNoteID = n.id)=0
 ORDER BY n.title
 ```
-Basically how this works is we look at all the notes and build a tree based on the originNoteID and pull the latest for the tree.
+Basically how this works is we look at all the notes and build a tree based on the `originNoteID` and pull the latest for the tree.
 
 
 ###Folder Resource
@@ -70,7 +73,7 @@ Basically how this works is we look at all the notes and build a tree based on t
 | DELETE		 | Delete a folder and contents | id	    									| HTTP Return Code						    		| /Service/note/405 								| Deletes subfolders and notes |
 
 
-The get call has query parameters
+The `GET` call's query parameters are as follows
 
 | Column			| Description									| Default value |
 | -------------		| --------------------------------------------- | ------------- |
@@ -113,3 +116,12 @@ Sample Folder JSON object with note and subfolder included
        ]
     }
 ```
+
+##Config
+//TODO
+##File
+//TODO
+##Token
+//TODO
+##User
+//TODO
