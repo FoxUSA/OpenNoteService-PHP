@@ -1,3 +1,8 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ service.php [QSA,L]
+
+<Files "OpenNote.sqlite">
+Order Allow,Deny
+Deny from all
+</Files>
