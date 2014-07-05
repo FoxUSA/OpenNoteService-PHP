@@ -21,9 +21,9 @@ In a future release we will support a refresh mechanism.
 
 | Accepted Calls | Use						    | Parameter(s)  | Returns								    | Example Call	    | Notes	    |
 | -------------- | ---------------------------- | ------------- | ----------------------------------------- | ----------------- | --------- | 
-| GET			 | Get a note object 		    | id		    | HTTP Return Code and JSON note object	    | /Service/note/405 | 		    |
-| POST			 | Persist a note object	    | 			    | HTTP Return Code and new JSON note object | /Service/note/    | userID and id are ignored and determined by the server. Notes are insert only and are neve updated except when a note is moved to a new folder. All history is also moved to the new filder. |
-| DELETE		 | Delete a note and history    | id		    | HTTP Return Code						    | /Service/note/405 | Deletes history |
+| GET			 | Get a note object 		    | id		    | HTTP return code and JSON note object	    | /Service/note/405 | 		    |
+| POST			 | Persist a note object	    | 			    | HTTP return code and new JSON note object | /Service/note/    | userID and id are ignored and determined by the server. Notes are insert only and are neve updated except when a note is moved to a new folder. All history is also moved to the new filder. |
+| DELETE		 | Delete a note and history    | id		    | HTTP return code						    | /Service/note/405 | Deletes history |
 
 Sample Note JSON object
 ```
@@ -67,10 +67,10 @@ Basically how this works is we look at all the notes and build a tree based on t
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
-| GET			 | Get a folder object 		    | id, levels, includeNotes, includeNotesHTML 	| HTTP Return Code and JSON folder object   		| /Service/folder/?id=1&includeNotes=true&levels=1 	| 		    |
-| POST			 | Insert a folder object	    | 			    								| HTTP Return Code and new JSON folder object 		| /Service/folder/    								| userID, id, foldersInside and notesInside are ignored |
-| PUT			 | Update a folder				|												| HTTP Return Code and updated JSON folder object 	| /Service/folder/									| foldersInside and notesInside are ignored |
-| DELETE		 | Delete a folder and contents | id	    									| HTTP Return Code						    		| /Service/folder/405 								| Deletes subfolders and notes |
+| GET			 | Get a folder object 		    | id, levels, includeNotes, includeNotesHTML 	| HTTP return code and JSON folder object   		| /Service/folder/?id=1&includeNotes=true&levels=1 	| 		    |
+| POST			 | Insert a folder object	    | 			    								| HTTP return code and new JSON folder object 		| /Service/folder/    								| userID, id, foldersInside and notesInside are ignored |
+| PUT			 | Update a folder				|												| HTTP return code and updated JSON folder object 	| /Service/folder/									| foldersInside and notesInside are ignored |
+| DELETE		 | Delete a folder and contents | id	    									| HTTP return code						    		| /Service/folder/405 								| Deletes subfolders and notes |
 
 
 The `GET` call's query parameters are as follows
@@ -121,7 +121,7 @@ Sample Folder JSON object with note and subfolder included
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
-| GET			 | Get a server config object   | 												| HTTP Return Code and JSON config object   		| /Service/config								 	| 		    |
+| GET			 | Get a server config object   | 												| HTTP return code and JSON config object   		| /Service/config								 	| 		    |
 
 Sample config
 
@@ -136,14 +136,14 @@ Sample config
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
-| GET			 | Get a file datastream	    | id, cookie based token					 	| HTTP Return Code and file						   	| /Service/file/123									| Cookie based token |		    |
-| POST			 | Upload a file				| token, file		    						| HTTP Return Code and ckeditor js containg url		| /Service/file/?token=vjjasjdjkfaskdf				| GET based token |
+| GET			 | Get a file datastream	    | id, cookie based token					 	| HTTP return code and file						   	| /Service/file/123									| Cookie based token |		    |
+| POST			 | Upload a file				| token, file		    						| HTTP return code and ckeditor js containg url		| /Service/file/?token=vjjasjdjkfaskdf				| GET based token |
 
 ##Token
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
-| POST			 | Get a API token				| username, password    						| HTTP Return Code and token json object			| /Service/token/user&password						| Open call(does not require authentication	|
+| POST			 | Get a API token				| username, password    						| HTTP return code and token json object			| /Service/token/user&password						| Open call(does not require authentication)	|
 
 Sample token
 
@@ -162,5 +162,5 @@ Sample token
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
-| GET			 | Ckeck if a username exsists  | username									 	| HTTP Return Code								   	| /Service/user/123									| Open call(does not require authentication |
-| POST			 | Register a user				| username, password    						| HTTP Return Code and token json object			| /Service/user/?token=vjjasjdjkfaskdf				| Open call(does not require authentication |
+| GET			 | Check if a username exsists  | username									 	| HTTP return code								   	| /Service/user/123									| Open call(does not require authentication) |
+| POST			 | Register a user				| username, password    						| HTTP return code and token json object			| /Service/user/?token=vjjasjdjkfaskdf				| Open call(does not require authentication) |
