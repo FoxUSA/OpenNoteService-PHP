@@ -67,10 +67,10 @@ Basically how this works is we look at all the notes and build a tree based on t
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
-| GET			 | Get a folder object 		    | id, levels, includeNotes, includeNotesHTML 	| HTTP Return Code and JSON folder object   		| /Service/folder?id=1&includeNotes=true&levels=1 	| 		    |
+| GET			 | Get a folder object 		    | id, levels, includeNotes, includeNotesHTML 	| HTTP Return Code and JSON folder object   		| /Service/folder/?id=1&includeNotes=true&levels=1 	| 		    |
 | POST			 | Insert a folder object	    | 			    								| HTTP Return Code and new JSON folder object 		| /Service/folder/    								| userID, id, foldersInside and notesInside are ignored |
 | PUT			 | Update a folder				|												| HTTP Return Code and updated JSON folder object 	| /Service/folder/									| foldersInside and notesInside are ignored |
-| DELETE		 | Delete a folder and contents | id	    									| HTTP Return Code						    		| /Service/note/405 								| Deletes subfolders and notes |
+| DELETE		 | Delete a folder and contents | id	    									| HTTP Return Code						    		| /Service/folder/405 								| Deletes subfolders and notes |
 
 
 The `GET` call's query parameters are as follows
@@ -123,6 +123,7 @@ Sample Folder JSON object with note and subfolder included
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
 | GET			 | Get a server config object   | 												| HTTP Return Code and JSON config object   		| /Service/config								 	| 		    |
 
+Sample config
 
 ```
     {
@@ -143,6 +144,8 @@ Sample Folder JSON object with note and subfolder included
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
 | POST			 | Get a API token				| username, password    						| HTTP Return Code and token json object			| /Service/token/user&password						| Open call(does not require authentication	|
+
+Sample token
 
 ```
 	{
