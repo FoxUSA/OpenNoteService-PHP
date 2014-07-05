@@ -118,10 +118,46 @@ Sample Folder JSON object with note and subfolder included
 ```
 
 ##Config
-//TODO
+
+| Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
+| -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
+| GET			 | Get a server config object   | 												| HTTP Return Code and JSON config object   		| /Service/config								 	| 		    |
+
+
+```
+    {
+       "uploadEnabled": true,
+       "registrationEnabled": false
+    }
+```
+
 ##File
-//TODO
+
+| Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
+| -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
+| GET			 | Get a file datastream	    | id, cookie based token					 	| HTTP Return Code and file						   	| /Service/file/123									| Cookie based token |		    |
+| POST			 | Upload a file				| token, file		    						| HTTP Return Code and ckeditor js containg url		| /Service/file/?token=vjjasjdjkfaskdf				| GET based token |
+
 ##Token
-//TODO
+
+| Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
+| -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
+| POST			 | Get a API token				| username, password    						| HTTP Return Code and token json object			| /Service/token/user&password						| Open call(does not require authentication	|
+
+```
+	{
+	  "id": "203",
+	  "userID": "1",
+	  "ip": "127.0.0.1",
+	  "token": "10387e01asdf10938470asd98f71023f",
+	  "issued": "2014-07-05 02:02:58",
+	  "expires": "2014-07-05 12:02:58"
+	}
+```
+
 ##User
-//TODO
+
+| Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
+| -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
+| GET			 | Ckeck if a username exsists  | username									 	| HTTP Return Code								   	| /Service/user/123									| Open call(does not require authentication |
+| POST			 | Register a user				| username, password    						| HTTP Return Code and token json object			| /Service/user/?token=vjjasjdjkfaskdf				| Open call(does not require authentication |

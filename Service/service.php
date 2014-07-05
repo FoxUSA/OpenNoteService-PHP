@@ -243,7 +243,7 @@
 	    				return;
 	    			}
 	    			
-	    			$tokenServer = \controller\Authenticater::validateToken($_GET["token"], $_SERVER["REMOTE_ADDR"], Config::getModel());
+	    			$tokenServer = \controller\Authenticater::validateToken($app->request()->get("token"), $_SERVER["REMOTE_ADDR"], Config::getModel());
 	    			
 	    			$app->contentType("text/html");//Override other calls
 	    			$app->response->setBody(\controller\File::startUpload(Config::getModel(),$tokenServer));
