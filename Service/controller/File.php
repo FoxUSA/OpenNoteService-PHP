@@ -22,7 +22,7 @@ abstract class File{
 		
 		 //extensive suitability check before doing anything with the file...
 		    if (($_FILES["upload"] == "none") OR (empty($_FILES["upload"]["name"])))
-		       $message = "No file uploaded. Try checking the php upload and post limit.";
+		       $message = "No file uploaded. Try checking the php upload and post limits.";
 		    else 
 		    	if ($_FILES["upload"]["size"] == 0)
 		      		$message = "File is blank";
