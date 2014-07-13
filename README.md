@@ -5,4 +5,8 @@ PHP Backend for OpenNote
 
 A RESTful service implementation for OpenNote.
 
-Not yet stable.
+Documentation
+-----------------
+[API documentation][API]
+
+[API]: https://github.com/FoxUSA/OpenNoteService-PHP

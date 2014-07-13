@@ -22,7 +22,7 @@ In a future release we will support a refresh mechanism.
 | Accepted Calls | Use						    | Parameter(s)  | Returns								    | Example Call	    | Notes	    |
 | -------------- | ---------------------------- | ------------- | ----------------------------------------- | ----------------- | --------- | 
 | GET			 | Get a note object 		    | id		    | HTTP return code and JSON note object	    | /Service/note/405 | 		    |
-| POST			 | Persist a note object	    | 			    | HTTP return code and new JSON note object | /Service/note/    | userID and id are ignored and determined by the server. Notes are insert only and are neve updated except when a note is moved to a new folder. All history is also moved to the new filder. |
+| POST			 | Persist a note object	    | 			    | HTTP return code and new JSON note object | /Service/note/    | userID and id are ignored and determined by the server. Notes are insert only and are neve updated except when a note is moved to a new folder(TODO move note not yet functional). All history is also moved to the new filder. |
 | DELETE		 | Delete a note and history    | id		    | HTTP return code						    | /Service/note/405 | Deletes history |
 
 Sample Note JSON object
