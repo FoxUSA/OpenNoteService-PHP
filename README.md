@@ -9,4 +9,4 @@ Documentation
 -----------------
 [API documentation][API]
 
-[API]: https://github.com/FoxUSA/OpenNoteService-PHP
+[API]: https://github.com/FoxUSA/OpenNoteService-PHP/blob/master/Doc/API.md
