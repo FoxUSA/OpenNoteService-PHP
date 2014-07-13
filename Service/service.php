@@ -152,10 +152,10 @@
                     $app->response->setStatus($e->getCode()); //return error code
                     return;             
                 }
-                /*catch(\Exception $e){
+                catch(\Exception $e){
                     $app->response->setStatus(500); //return error code
                     return;
-                }*///FIXME
+                }
             });
             
 		//Save folder
@@ -294,10 +294,10 @@
     			$app->response->setStatus($e->getCode()); //return error code
     			return;
     		}
-    		/*catch(\Exception $e){
+    		catch(\Exception $e){
     			$app->response->setStatus(500); //return error code
     			return;
-    		}*///FIXME
+    		}
     	});
     	
 	$app->run();

@@ -24,12 +24,12 @@
 							break;
 							
 						case "Title":
-							$result->notesInside=$model->searchNotesTitles($userID,$token);
+							$result->notesInside=$model->searchNotesTitles($searchQuery, $userID);
 							$result->foldersInside = $model->searchFolders($searchQuery, $userID);
 							break;
 							
 						case "Body":
-							$result->notesInside=$model->searchNotesNotes($userID,$token);
+							$result->notesInside=$model->searchNotesNotes($searchQuery,$userID);
 							$result->foldersInside = $model->searchFolders($searchQuery, $userID);
 							break;
 					}
@@ -43,11 +43,11 @@
 							break;
 								
 						case "Title":
-							$result->notesInside=$model->searchNotesTitles($userID,$token);
+							$result->notesInside=$model->searchNotesTitles($searchQuery, $userID);
 							break;
 								
 						case "Body":
-							$result->notesInside=$model->searchNotesNotes($userID,$token);
+							$result->notesInside=$model->searchNotesNotes($searchQuery, $userID);
 							break;
 					}
 					break;
