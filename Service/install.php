@@ -152,13 +152,11 @@
 							
 						case "cleanup":
 							echo "<p>Install Complete</p>";
-							if(unlink("./Config.template"))
+							if(!unlink("./Config.template"))
 								echo "<p>Was unable to delete Config.template. Please delete it manually.</p>";
-							if(unlink("./install.php"))
+							if(!unlink("./install.php"))
 								echo "<p>Was unable to delete Install.php. Please delete it manually.</p>";
 							break;
-							
-						
 					}
 			?>
 		</div>
