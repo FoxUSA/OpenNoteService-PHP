@@ -164,3 +164,19 @@ Sample token
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
 | GET			 | Check if a username exsists  | username									 	| HTTP return code								   	| /Service/user/123									| Open call(does not require authentication) |
 | POST			 | Register a user				| username, password    						| HTTP return code and token json object			| /Service/user/?token=vjjasjdjkfaskdf				| Open call(does not require authentication) |
+
+##Search
+
+| Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
+| -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
+| POST			 | Search database for string	| Search request object   						| HTTP return code and folder json object			| /Service/search/									| 			|
+
+Sample search request
+
+```
+	{
+		"type":"Both",
+		"field":"Both",
+		"search":"test"
+	}
+```
