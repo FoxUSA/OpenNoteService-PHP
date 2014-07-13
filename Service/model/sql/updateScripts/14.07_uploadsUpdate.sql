@@ -22,7 +22,7 @@
 	ALTER TABLE `users` DROP `lastLoginTime`;
 	
 	
---Escape html
+-- Escape html
 	UPDATE note
 		SET note = REPLACE(REPLACE(REPLACE(REPLACE(note, ">", "&gt;"), "<", "&lt;"), '"', "&quot;"), "'", "&#39;");
 

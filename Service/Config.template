@@ -65,7 +65,7 @@
 		 * Upload
 		 */
 			public static function getUploadEnabled(){
-				return true;//Default: true. Allwer users to upload files.
+				return true;//Default: true. Allow users to upload files.
 			}
 			
 			/**
