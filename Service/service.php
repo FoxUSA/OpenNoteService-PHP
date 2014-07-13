@@ -152,10 +152,10 @@
                     $app->response->setStatus($e->getCode()); //return error code
                     return;             
                 }
-                catch(\Exception $e){
+                /*catch(\Exception $e){
                     $app->response->setStatus(500); //return error code
                     return;
-                }
+                }*///FIXME
             });
             
 		//Save folder
@@ -277,7 +277,29 @@
 	    			return;
 	    		}
 			});
-          
+    	
+    //Search
+    	$app->post("/search/", function () use ($app) {
+    		try{
+    			$token = $app->request->headers->get("token");
+    			$tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
+    	
+    			//Send back the results
+    			$app->response->setBody(
+    					json_encode(\controller\Search::searchRequest(	Config::getModel(), 
+																		$tokenServer, 
+    																	json_decode($app->request->getBody())))); //return it
+    		}
+    		catch(\controller\ServiceException $e){
+    			$app->response->setStatus($e->getCode()); //return error code
+    			return;
+    		}
+    		/*catch(\Exception $e){
+    			$app->response->setStatus(500); //return error code
+    			return;
+    		}*///FIXME
+    	});
+    	
 	$app->run();
 		
 		
