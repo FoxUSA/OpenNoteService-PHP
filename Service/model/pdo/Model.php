@@ -16,7 +16,7 @@
 				$note = new \model\dataTypes\Note();
 				$note->folderID=$result["folderID"];;
 				$note->id=$result["id"];
-				$note->title=$result["title"];
+				$note->title=html_entity_decode($result["title"], ENT_QUOTES);;
 					
 				if($includeNotesHTML)
 					$note->note=html_entity_decode($result["note"]);//de-scape note
@@ -42,7 +42,7 @@
 				$folder = new \model\dataTypes\Folder();
 				$folder->id=$result["id"];
 				$folder->parrentFolderID=$result["parrentFolderID"];
-				$folder->name=$result["name"];
+				$folder->name=html_entity_decode($result["name"], ENT_QUOTES);;
 				$folder->userID=$result["userID"];
 			
 				$returnArray[] = $folder; //add item to return array
@@ -181,7 +181,7 @@
          * @return - the new folder
          */
 		public function saveFolder($folder){
-            Core::query("INSERT INTO folder(parrentFolderID, name, userID) VALUES(?,?,?)",array($folder->parrentFolderID,$folder->name,$folder->userID));
+            Core::query("INSERT INTO folder(parrentFolderID, name, userID) VALUES(?,?,?)",array($folder->parrentFolderID,htmlentities($folder->name),$folder->userID));
             return $this->getFolder(Core::getInsertID());
         }
 		
@@ -196,7 +196,7 @@
                             name = ?
                          WHERE id = ?", 
                          array( $folder->parrentFolderID,
-                                $folder->name,
+                                htmlentities($folder->name),
                                 $folder->id));
             return $this->getFolder($folder->id);
         }
@@ -212,7 +212,7 @@
                 $folder = new \model\dataTypes\Folder();
                 $folder->id = $result[0]["id"];
                 $folder->parrentFolderID = $result[0]["parrentFolderID"];
-                $folder->name = $result[0]["name"];
+                $folder->name = html_entity_decode($result[0]["name"], ENT_QUOTES);
                 $folder->userID = $result[0]["userID"];
                 return $folder;
             }
@@ -258,16 +258,6 @@
 									array($folderID));//basically get notes that id is null and have not been overwritten or are the latest
 			
 			return self::noteListFactory($results, false);					
-		}
-		
-		/**
-		 * Get the folderID from the noteID
-		 * @param noteID - get the folderID that noteID is in.
-		 * @return - the folderID
-		 */
-		private function getNotesFolderID($noteID, $userID){
-			$result = Core::query("SELECT folderID FROM note WHERE id = ? AND userID=?;",array($noteID,$userID));//get the note
-			return $result[0]["folderID"];
 		}
 			
 	//Authentication
