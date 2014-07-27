@@ -66,7 +66,17 @@ abstract class File{
 			header(sprintf("Content-Length:  %d",filesize($diskName))); //and how big it is
 			ob_clean();
 			flush();
-			readfile($diskName); //send it away
+			
+			ob_end_flush();
+
+			set_time_limit(0);
+			$file = @fopen($diskName,"rb");
+			while(!feof($file))
+			{
+				print(@fread($file, 1024*8));
+				ob_flush();
+				flush();
+			}
 			exit;
 		}
 		else
