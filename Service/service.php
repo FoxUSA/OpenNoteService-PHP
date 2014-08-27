@@ -33,6 +33,11 @@
 					$app->response->setStatus(\controller\Authenticater::checkAvailability($user, Config::getModel()));
 			});
 		
+		//delete token
+			$app->delete("/token/", function ()  use ($app){
+				\controller\Authenticater::invalidateToken($app->request->headers->get("token"),Config::getModel());
+			});
+		
 		//register  
 			$app->post("/user/:user&:password", function ($user, $password)  use ($app){
 				$ip = $_SERVER["REMOTE_ADDR"];
@@ -301,7 +306,6 @@
     	});
     	
 	$app->run();
-		
 		
 	//search
 		if(isset($_POST["search"],$_POST["searchString"]))

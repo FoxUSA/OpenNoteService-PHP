@@ -120,7 +120,14 @@
 			catch(\Exception $e){
 				throw new \controller\ServiceException("Not authorized",401);
 			}
-			
+		}
+		
+		/**
+		 * Invalidate a token
+		 * @param $userToken - Invalidate a token
+		 */
+		public static function invalidateToken($userToken, \model\IModel $model){
+			$model->invalidateToken($userToken);
 		}
 	}
 ?>
