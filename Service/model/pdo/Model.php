@@ -260,18 +260,19 @@
 			return self::noteListFactory($results, false);					
 		}
 			
-	//Authentication
+	//Authentication		
 		/**
 		 * Create a token
 		 * @param userID - the userID who the token is for
 		 * @param ip - the requesters ip
 		 * @param token - the token string
+		 * @param issueTime - the time the token is valid from
 		 * @param expireTime - the time the token is valid to
 		 */
-		public function createToken($userID, $ip, $token, $expireTime){
-			Core::query("INSERT INTO token(userID,ip,token,expires) VALUES(?,?,?,?)",array($userID, $ip, $token, $expireTime));//Create a token record
+		public function createToken($userID, $ip, $token, \DateTime $issueTime, \DateTime $expireTime){
+			Core::query("INSERT INTO token(userID,ip,token,issued, expires) VALUES(?,?,?,?,?)",array($userID, $ip, $token, $issueTime->format("Y-m-d H:i:s"), $expireTime->format("Y-m-d H:i:s")));//Create a token record
 			return $this->getTokenFromID(Core::getInsertID());
-			
+				
 		}
 		
 		/**

@@ -83,15 +83,16 @@
 		 */ 
 		public function getNotesInFolder($folderID, $includeNotesHTML);
 		
-	//Authentication
+	//Authentication		
 		/**
 		 * Create a token
 		 * @param userID - the userID who the token is for
 		 * @param ip - the requesters ip
 		 * @param token - the token string
+		 * @param issueTime - the time the token is valid from
 		 * @param expireTime - the time the token is valid to
 		 */
-		public function createToken($userID, $ip, $token, $expireTime);
+		public function createToken($userID, $ip, $token, \DateTime $issueTime, \DateTime $expireTime);
 			
 		/**
 		 * Get token

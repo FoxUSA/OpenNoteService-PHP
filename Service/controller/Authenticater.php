@@ -1,5 +1,6 @@
 <?php
 	namespace controller;
+	include_once dirname(__FILE__)."/../Config.php";
 	abstract class Authenticater{	
 		/**
 		 * @param userName - the user name to check availability for
@@ -40,10 +41,11 @@
 				$user->password = crypt($password);//hash password
 			$user = $model->createUser($user);
 			
-			$expireTime = new \DateTime("now");
-			$expireTime->add(new \DateInterval("PT10H"));
+			$issueTime = new \DateTime("now",new \DateTimeZone("UTC"));
+			$expireTime = new \DateTime("now",new \DateTimeZone("UTC"));
+			$expireTime->add(new \DateInterval(sprintf("PT%dM",\Config::tokenLife())));
 			
-			return $model->createToken($user->id, $ip, bin2hex(openssl_random_pseudo_bytes(16)), $expireTime->format("Y-m-d H:i:s"));
+			return $model->createToken($user->id, $ip, bin2hex(openssl_random_pseudo_bytes(16)), $issueTime, $expireTime);
 		}
 
 		/**
@@ -66,10 +68,11 @@
 				
 			$token=bin2hex(openssl_random_pseudo_bytes(16));
 			
-			$expireTime = new \DateTime("now");
-			$expireTime->add(new \DateInterval("PT10H"));
+			$issueTime = new \DateTime("now",new \DateTimeZone("UTC"));
+			$expireTime = new \DateTime("now",new \DateTimeZone("UTC"));
+			$expireTime->add(new \DateInterval(sprintf("PT%dM",\Config::tokenLife())));
 			
-			return $model->createToken($user->id, $ip, $token, $expireTime->format("Y-m-d H:i:s"));
+			return $model->createToken($user->id, $ip, $token, $issueTime, $expireTime);
 		}
 		
 		/**
@@ -103,7 +106,12 @@
                     throw new \Exception("Invalid Token");
                 
 				$serverToken = $model->getToken($userToken);
-				if($ip=$serverToken->ip)
+				
+				$evalTime = new \DateTime("now",new \DateTimeZone("UTC"));
+				$issuedTime = new \DateTime($serverToken->issued, new \DateTimeZone("UTC"));
+				$expiresTime = new \DateTime($serverToken->expires, new \DateTimeZone("UTC"));
+				
+				if($ip==$serverToken->ip && $issuedTime<=$evalTime && $evalTime<=$expiresTime)
 					return $serverToken;
 					
 				$model->invalidateToken($userToken);

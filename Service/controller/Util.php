@@ -30,26 +30,5 @@
 				}
 			};
 		}
-		
-		/**
-		 * Check to see if there is an update
-		 * @return - returns
-		 */
-		public static function checkForOpenNoteUpdate(){
-			if(Config::$checkForUpdates){
-				$json=file_get_contents(sprintf("%s-%s&version=%s",Config::$updateServicePath,Config::$releaseChannel,Config::$version));
-				
-				if(sizeof($json)!=0){
-					try{
-						$update=json_decode($json);
-						
-						if($update!=null && Config::$version!=$update->version)
-							echo sprintf("<a id=\"update\" href=\"%s\">%s</a>", $update->updateURL, $update->updateText);
-					}
-					catch(Exception $e){
-					}
-				}
-			}	
-		}
 	}
 ?>
