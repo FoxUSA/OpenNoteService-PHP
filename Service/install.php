@@ -76,8 +76,8 @@
 					switch ($_GET["step"]){
 						case "1":
 							echo "	<p>Please select a database type you wish to use:</p>
-									<p><a href='?step=2-mysql' class='btn btn-default'>MySQL</a></p>
-									<p><a href='?step=2-sqlite' class='btn btn-default'>sqlite(Recomended)</a></p>";
+									<p><a href='?step=2-mysql' class='btn btn-default'>MySQL(Recomended)</a></p>
+									<p><a href='?step=2-sqlite' class='btn btn-default'>sqlite</a></p>";
 								
 							break;
 							
