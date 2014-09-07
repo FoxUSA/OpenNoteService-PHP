@@ -16,7 +16,7 @@
 				$note = new \model\dataTypes\Note();
 				$note->folderID=$result["folderID"];;
 				$note->id=$result["id"];
-				$note->title=html_entity_decode($result["title"], ENT_QUOTES);;
+				$note->title=html_entity_decode($result["title"], ENT_QUOTES);
 					
 				if($includeNotesHTML)
 					$note->note=html_entity_decode($result["note"]);//de-scape note
@@ -42,7 +42,7 @@
 				$folder = new \model\dataTypes\Folder();
 				$folder->id=$result["id"];
 				$folder->parrentFolderID=$result["parrentFolderID"];
-				$folder->name=html_entity_decode($result["name"], ENT_QUOTES);;
+				$folder->name=html_entity_decode($result["name"], ENT_QUOTES);
 				$folder->userID=$result["userID"];
 			
 				$returnArray[] = $folder; //add item to return array
