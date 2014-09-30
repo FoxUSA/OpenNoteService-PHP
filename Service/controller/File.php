@@ -34,7 +34,7 @@ abstract class File{
 				         	$message = "Error moving uploaded file. Check the script is granted Read/Write/Modify permissions.";
 						
 						if($message=="")
-							$url = sprintf("//%s%s%s%s",$_SERVER["SERVER_NAME"],\Config::getWebRoot() ,"file/", $model->uploadFile(self::createGUID(),$originalName, $diskName, $tokenServer->userID));
+							$url = sprintf("//%s%s%s%s",$_SERVER["SERVER_NAME"],\Config::getWebRoot() ,"service.php/file/", $model->uploadFile(self::createGUID(),$originalName, $diskName, $tokenServer->userID));
 		    		}
 		 
 		$funcNum = $_GET["CKEditorFuncNum"];
