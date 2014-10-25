@@ -306,8 +306,4 @@
     	});
     	
 	$app->run();
-		
-	//search
-		if(isset($_POST["search"],$_POST["searchString"]))
-			NoteBook::search(Config::getModel(), $_POST["searchString"]);
 ?>	
