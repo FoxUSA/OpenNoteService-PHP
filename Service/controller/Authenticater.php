@@ -38,7 +38,7 @@
 			
 			$user = new \model\dataTypes\User();
 				$user->userName = $userName;
-				$user->password = crypt($password);//hash password
+				$user->password = password_hash($password, PASSWORD_DEFAULT);//hash password
 			$user = $model->createUser($user);
 			
 			$issueTime = new \DateTime("now",new \DateTimeZone("UTC"));
