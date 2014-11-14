@@ -16,7 +16,6 @@
 					return self::$injectedCoreConfig;
 					
 				//Un-comment desired database type
-					//return self::sqliteConfig();
 				return self::mysqlConfig();
 				//return self::sqliteConfig();
 			}
