@@ -3,7 +3,7 @@
  *	Project name: OpenNote
  * 	Author: Jacob Liscom
  *	Version: 13.7.0
- * 
+ *
  * Handles the java script to php calls
 **/
 
@@ -12,15 +12,16 @@
 
 	include_once dirname(__FILE__)."/../vendor/autoload.php";
 	include_once dirname(__FILE__)."/Config.php";
-	
+
 	//clean input
 		\controller\Util::cleanPost();
 		\controller\Util::cleanGets();
-	
+
 	$app = new \Slim\Slim();
+	$app->add(new \CorsSlim\CorsSlim());
 	$app->contentType("application/json");//we return json on almost everything
-	 
-	/** 
+
+	/**
 	 * REST scheme
 	 * GET to retrieve and search data
 	 * POST to add data
@@ -28,25 +29,25 @@
 	 * DELETE to delete data
 	 */
 	//auth
-		//check username availability 
+		//check username availability
 			$app->get("/user/:user", function($user) use ($app){
 					$app->response->setStatus(\controller\Authenticater::checkAvailability($user, Config::getModel()));
 			});
-		
+
 		//delete token
 			$app->delete("/token/", function ()  use ($app){
 				\controller\Authenticater::invalidateToken($app->request->headers->get("token"),Config::getModel());
 			});
-		
-		//register  
+
+		//register
 			$app->post("/user/:user&:password", function ($user, $password)  use ($app){
 				$ip = $_SERVER["REMOTE_ADDR"];
-				
+
 				if(!\Config::getRegistrationEnabled()){//dont allow them to execute this call if it is disabled
 					$app->response->setStatus(503); //return error code
 					return;
 				}
-					
+
 				try{
 					$app->response->setBody(json_encode(\controller\Authenticater::register($user,$password, $ip, Config::getModel())));
 				}
@@ -58,85 +59,64 @@
 					$app->response->setStatus(500); //return error code
 				}
 			});
-			
-		//login  
+
+		//login
 			$app->post("/token/:user&:password", function ($user, $password)  use ($app){
 				$ip = $_SERVER["REMOTE_ADDR"];
-				
+
 				try{
 					$app->response->setBody(json_encode(\controller\Authenticater::login($user,$password, $ip, Config::getModel())));
 				}
 				catch(\controller\ServiceException $e){
                     $app->response->setStatus($e->getCode()); //return error code
-                    return;             
+                    return;
                 }
                 catch(\Exception $e){
                     $app->response->setStatus(500); //return error code
                 }
 			});
-		
+
 	//notes
 		//get note
 			$app->get("/note/:id", function ($id) use ($app) {
 				try{
 				    $token = $app->request->headers->get("token");
 					$tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
-					
+
 					$note = \controller\NoteBook::getNote(Config::getModel(), $tokenServer, $id); //get note
 					$app->response->setBody(json_encode($note)); //return it
 				}
 				catch(\controller\ServiceException $e){
 					$app->response->setStatus($e->getCode()); //return error code
-					return;				
+					return;
 				}
 				catch(\Exception $e){
 					$app->response->setStatus(500); //return error code
 					return;
 				}
 			});
-	
-		//save note
-			$app->post("/note/", function () use ($app){ 
-                try{
-                    $token = $app->request->headers->get("token");
-                    $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
-                    
-                    $note = json_decode($app->request->getBody());
-                    $note = \controller\NoteBook::saveNote(Config::getModel(), $tokenServer, $note); 
-                   
-                    $app->response->setBody(json_encode($note)); //return it
-                }
-                catch(\controller\ServiceException $e){
-                    $app->response->setStatus($e->getCode()); //return error code
-                    return;             
-                }
-                catch(\Exception $e){
-                    $app->response->setStatus(500); //return error code
-                    return;
-                }               
-			});
-        
+
         //delete note
-            $app->delete("/note/:id", function ($id) use ($app){ 
+            $app->delete("/note/:id", function ($id) use ($app){
                 try{
                     $token = $app->request->headers->get("token");
                     $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
-                    
+
                     $note = \controller\NoteBook::getNote(Config::getModel(), $tokenServer, $id); //get note
-                    $note = \controller\NoteBook::removeNote(Config::getModel(), $tokenServer, $note); 
+                    $note = \controller\NoteBook::removeNote(Config::getModel(), $tokenServer, $note);
                 }
                 catch(\controller\ServiceException $e){
                     $app->response->setStatus($e->getCode()); //return error code
-                    return;             
+                    return;
                 }
                 catch(\Exception $e){
                     $app->response->setStatus(500); //return error code
                     return;
                 }
-                
+
             });
-	
-	//Folder 
+
+	//Folder
         //Get Folder
             $app->get("/folder/", function () use ($app) {
                 try{
@@ -145,84 +125,43 @@
 	                	$levels = $app->request()->get("levels") != null ? $app->request()->get("levels") : 0; //default
 	                	$includeNotes = $app->request()->get("includeNotes")=="true" ? true : false;
 	                	$includeNotesHTML =  $app->request()->get("includeNotesHTML")=="true" ? true : false;
-                	
+
                     $token = $app->request->headers->get("token");
                     $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
-                    
+
                     $folder = \controller\NoteBook::getFolder(Config::getModel(), $tokenServer, $id, $levels, $includeNotes, $includeNotesHTML); //get folder
-                    
+
                     $app->response->setBody(json_encode($folder)); //return it
                 }
                 catch(\controller\ServiceException $e){
                     $app->response->setStatus($e->getCode()); //return error code
-                    return;             
+                    return;
                 }
                 catch(\Exception $e){
                     $app->response->setStatus(500); //return error code
                     return;
                 }
             });
-            
-		//Save folder
-		  	$app->post("/folder/", function () use ($app) {
-                try{
-                    $token = $app->request->headers->get("token");
-                    $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
-                    
-                    $folder = json_decode($app->request->getBody());
-                    $folder = \controller\NoteBook::saveFolder(Config::getModel(), $tokenServer, $folder); //get folder
-                    
-                    $app->response->setBody(json_encode($folder)); //return it
-                }
-                catch(\controller\ServiceException $e){
-                    $app->response->setStatus($e->getCode()); //return error code
-                    return;             
-                }
-                catch(\Exception $e){
-                    $app->response->setStatus(500); //return error code
-                    return;
-                }
-            });
-            
-        //Update folder
-          $app->put("/folder/", function () use ($app) {
-                try{
-                    $token = $app->request->headers->get("token");
-                    $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
-                    
-                    $folder = json_decode($app->request->getBody());
-                    $folder = \controller\NoteBook::updateFolder(Config::getModel(), $tokenServer, $folder); //get folder
-                    
-                    $app->response->setBody(json_encode($folder)); //return it
-                }
-                catch(\controller\ServiceException $e){
-                    $app->response->setStatus($e->getCode()); //return error code
-                    return;             
-                }
-                catch(\Exception $e){
-                    $app->response->setStatus(500); //return error code
-                    return;
-                }
-            }); 
-         
+
+
         //Delete folder
           $app->delete("/folder/:id", function ($id) use ($app) {
                 try{
                     $token = $app->request->headers->get("token");
                     $tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
-                    
+
                     $folder = \controller\NoteBook::getFolder(Config::getModel(), $tokenServer, $id); //get note
                     \controller\NoteBook::removeFolder(Config::getModel(), $tokenServer, $folder); //remove folder
                 }
                 catch(\controller\ServiceException $e){
                     $app->response->setStatus($e->getCode()); //return error code
-                    return;             
+                    return;
                 }
                 catch(\Exception $e){
                     $app->response->setStatus(500); //return error code
                     return;
                 }
-            });   
+            });
 	//Config
 		//Get config values
           	$app->get("/config/", function () use ($app) {
@@ -238,18 +177,18 @@
           			return;
           		}
           	});
-          	
+
    	//File
    		//Upload
 	    	$app->post("/file/", function () use ($app) {
-	    		try{	    			
+	    		try{
 	    			if(!Config::getUploadEnabled()){//Check to see if this is allowed
 	    				$app->response->setStatus(503); //return error code
 	    				return;
 	    			}
-	    			
+
 	    			$tokenServer = \controller\Authenticater::validateToken($app->request()->get("token"), $_SERVER["REMOTE_ADDR"], Config::getModel());
-	    			
+
 	    			$app->contentType("text/html");//Override other calls
 	    			$app->response->setBody(\controller\File::startUpload(Config::getModel(),$tokenServer));
 	    		}
@@ -261,9 +200,9 @@
 	    			$app->response->setStatus(500); //return error code
 	    			return;
 	    		}
-	    		
+
 	    	});
-    	
+
 	    //Download
 	    	$app->get("/file/:id", function ($id) use ($app) {
 	    		try{
@@ -282,17 +221,17 @@
 	    			return;
 	    		}
 			});
-    	
+
     //Search
     	$app->post("/search/", function () use ($app) {
     		try{
     			$token = $app->request->headers->get("token");
     			$tokenServer = \controller\Authenticater::validateToken($token, $_SERVER["REMOTE_ADDR"], Config::getModel()); //replace token with validated one
-    	
+
     			//Send back the results
     			$app->response->setBody(
-    					json_encode(\controller\Search::searchRequest(	Config::getModel(), 
-																		$tokenServer, 
+    					json_encode(\controller\Search::searchRequest(	Config::getModel(),
+																		$tokenServer,
     																	json_decode($app->request->getBody())))); //return it
     		}
     		catch(\controller\ServiceException $e){
@@ -304,6 +243,6 @@
     			return;
     		}
     	});
-    	
+
 	$app->run();
 ?>	

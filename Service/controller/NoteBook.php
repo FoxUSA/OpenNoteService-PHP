@@ -167,7 +167,7 @@
 	            
 	            if($recersiveLevels>=2)//get stuff in our folders folders
 	                for($i=0;$i<count($folder->foldersInside);$i++)
-	                    $folder->foldersInside[$i] = self::getFolder($model,$token, $folder->foldersInside[$i]->id, $recersiveLevels-1); //get sub content
+	                    $folder->foldersInside[$i] = self::getFolder($model,$token, $folder->foldersInside[$i]->id, $recersiveLevels-1, $includeNotes, $includeNotesHTML); //get sub content
 	                
 	            return $folder;
 	         

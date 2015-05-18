@@ -44,5 +44,20 @@ UPDATE note
 UPDATE note
 	SET note = REPLACE(note,"https://domain/OpenNote/upload/Download.php?uploadID=", "https://domain/OpenNote/Service/file/");
 
+Weird space that will break json output
+	UPDATE `note` SET note=REPLACE(note," ","&nbsp;") WHERE note LIKE '% %';
+	UPDATE `note` SET note=REPLACE(note,'%','&frac12;') WHERE note LIKE '%%%%';
+	UPDATE `note` SET note=REPLACE(note,'â','&acirc;') WHERE note LIKE '%â%';
+	UPDATE `note` SET note=REPLACE(note,'€','&euro;') WHERE note LIKE '%€%';
+	UPDATE `note` SET note=REPLACE(note,'™','&trade;') WHERE note LIKE '%™%';
+	UPDATE `note` SET note=REPLACE(note,'˜','&tilde;') WHERE note LIKE '%˜%';
+	UPDATE `note` SET note=REPLACE(note,'¦','&brvbar;') WHERE note LIKE '%¦%';
+	UPDATE `note` SET note=REPLACE(note,'œ','&oelig;') WHERE note LIKE '%œ%';
+	UPDATE `note` SET note=REPLACE(note,'
+','&#10;') WHERE note LIKE '%
+%';
+	 
+	 
+	
 
 */

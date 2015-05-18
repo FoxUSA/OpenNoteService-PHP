@@ -257,7 +257,7 @@
 									ORDER BY n.title", 
 									array($folderID));//basically get notes that id is null and have not been overwritten or are the latest
 			
-			return self::noteListFactory($results, false);					
+			return self::noteListFactory($results, $includeNotesHTML);					
 		}
 			
 	//Authentication		
