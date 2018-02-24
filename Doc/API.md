@@ -2,8 +2,8 @@
 OpenNote provides a REST API. All calls from the JavaScript client use this api. 
 As a result, a good place to look on how these calls are used are in the default client.
 
-##Security
-Most calls are protected. I will not open calls below with the (Open) designation.
+## Security
+Most calls are protected. I will note open calls below with the (Open) designation.
 
 We use a token based security. OAuth did not seem a good option considering the ideals of this project.
 
