@@ -1,4 +1,4 @@
-#API
+# API
 OpenNote provides a REST API. All calls from the JavaScript client use this api. 
 As a result, a good place to look on how these calls are used are in the default client.
 
@@ -16,8 +16,8 @@ Currenty the token length is controlled in the service config.
 In a future release we will support a refresh mechanism.
 
 
-##Resources
-###Note Resource
+## Resources
+### Note Resource
 
 | Accepted Calls | Use						    | Parameter(s)  | Returns								    | Example Call	    | Notes	    |
 | -------------- | ---------------------------- | ------------- | ----------------------------------------- | ----------------- | --------- | 
@@ -39,7 +39,7 @@ Sample Note JSON object
 
 ```
 
-###History
+### History
 We do insert only approach with notes.
 We use the origin note to create a history tree.
 When the originNoteID is null, then this note is the origin note
@@ -63,7 +63,7 @@ ORDER BY n.title
 Basically how this works is we look at all the notes and build a tree based on the `originNoteID` and pull the latest for the tree.
 
 
-###Folder Resource
+### Folder Resource
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
@@ -117,7 +117,7 @@ Sample Folder JSON object with note and subfolder included
     }
 ```
 
-##Config
+## Config
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
@@ -132,7 +132,7 @@ Sample config
     }
 ```
 
-##File
+## File
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
@@ -158,14 +158,14 @@ Sample token
 	}
 ```
 
-##User
+## User
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
 | GET			 | Check if a username exsists  | username									 	| HTTP return code								   	| /Service/user/123									| Open call(does not require authentication) |
 | POST			 | Register a user				| username, password    						| HTTP return code and token json object			| /Service/user/?token=vjjasjdjkfaskdf				| Open call(does not require authentication) |
 
-##Search
+## Search
 
 | Accepted Calls | Use						    | Parameter(s)  								| Returns								    		| Example Call	    								| Notes	    |
 | -------------- | ---------------------------- | -------------------------						| ------------------------------------------------- | -------------------------------------------------	| --------- | 
