@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS `folder` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parrentFolderID` int(11) DEFAULT NULL,
+  `parentFolderID` int(11) DEFAULT NULL,
   `name` varchar(200) NOT NULL,
   `userID` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `userID` (`userID`),
-  KEY `parrentFolderID` (`parrentFolderID`)
+  KEY `parentFolderID` (`parentFolderID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5431 ;
 
 CREATE TABLE IF NOT EXISTS `note` (
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 ALTER TABLE `folder`
   ADD CONSTRAINT `folder_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `folder_ibfk_2` FOREIGN KEY (`parrentFolderID`) REFERENCES `folder` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `folder_ibfk_2` FOREIGN KEY (`parentFolderID`) REFERENCES `folder` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `note`
   ADD CONSTRAINT `note_ibfk_3` FOREIGN KEY (`originNoteID`) REFERENCES `note` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

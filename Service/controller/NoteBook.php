@@ -115,7 +115,7 @@
 	            
 	            $serverFolder=$model->getFolder($folder->id, $token->userID);
 	        
-	            if($token->userID!=$serverFolder->userID || !self::tokenOwnsParrentFolder($model, $token, $folder)) //the have to own the folder
+	            if($token->userID!=$serverFolder->userID || !self::tokenOwnsParentFolder($model, $token, $folder)) //the have to own the folder
 	                return false;
 	            return true;            
 	        }
@@ -127,11 +127,11 @@
 	         * @param folder - the folder to see if the token owns
 	         * @return - true if users owns the folder
 	         */
-	        private static function tokenOwnsParrentFolder(\model\IModel $model, \model\dataTypes\Token $token, $folder){
-	            if($folder->parrentFolderID==null)//everyone can have a folder in null
+	        private static function tokenOwnsParentFolder(\model\IModel $model, \model\dataTypes\Token $token, $folder){
+	            if($folder->parentFolderID==null)//everyone can have a folder in null
 	                return true;
 	            
-	            $serverFolder=$model->getFolder($folder->parrentFolderID, $token->userID);
+	            $serverFolder=$model->getFolder($folder->parentFolderID, $token->userID);
 	        
 	            if($token->userID!=$serverFolder->userID) //the have to own the folder
 	                return false;
@@ -186,7 +186,7 @@
 	            $folder->foldersInside = null;//do not allow saving of a tree
 	            $folder->notesInside = null;
 	            
-	            if(!self::tokenOwnsParrentFolder($model, $token, $folder))
+	            if(!self::tokenOwnsParentFolder($model, $token, $folder))
 	                throw new \controller\ServiceException("Unauthorized",401);
 	            
 	            $folder = $model->saveFolder($folder);

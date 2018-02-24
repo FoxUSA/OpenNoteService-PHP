@@ -2,7 +2,7 @@
 	namespace model\dataTypes;
 	class Folder{
 		public $id;
-		public $parrentFolderID;
+		public $parentFolderID;
 		public $name;
 		public $userID;
         

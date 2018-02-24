@@ -52,7 +52,7 @@
 		 */
 		public function testNewSubFolder(){
 			//Setup
-				$parrentID = rand(0, 999999999);
+				$parentID = rand(0, 999999999);
 				$name = rand(0, 999999999)."Folder123"; //parent folder simulatedID
 						
 				$this->expectOutputRegex("{getFolderList()}"); //make sure the js call is made
@@ -60,14 +60,14 @@
 		 
 		        $model->expects($this->once())
 		                 ->method("newFolder")
-		                 ->with($this->equalTo($parrentID))
+		                 ->with($this->equalTo($parentID))
 						 ->will($this->returnValue($name));
 								
 			 	$model->expects($this->once())//This is call called when a new NoteBook is created
 		                 ->method("getFolder")
-		                 ->with($this->equalTo($parrentID));
+		                 ->with($this->equalTo($parentID));
 						 
-				$result=NoteBook::newFolder($model,$parrentID,$name);
+				$result=NoteBook::newFolder($model,$parentID,$name);
 				$this->assertEquals($result, "");//No output expected
 		}
 		
@@ -76,7 +76,7 @@
 		 */
 		public function testNewRootFolder(){
 			//Setup
-				$parrentID = null;
+				$parentID = null;
 				$name = rand(0, 999999999)."Folder123"; //parent folder simulatedID
 						
 				$this->expectOutputRegex("{getFolderList()}"); //make sure the js call is made
@@ -84,14 +84,14 @@
 		 
 		        $model->expects($this->once())
 		                 ->method("newFolder")
-		                 ->with($this->equalTo($parrentID))
+		                 ->with($this->equalTo($parentID))
 						 ->will($this->returnValue($name));
 								
 			 	$model->expects($this->once())//This is call called when a new NoteBook is created
 		                 ->method("getRootFolder")
 		                 ->will($this->returnValue(array(array("id"=>rand(0, 999999999),"name"=>$name))));
 						 
-				$result=NoteBook::newFolder($model,$parrentID,$name);
+				$result=NoteBook::newFolder($model,$parentID,$name);
 				$this->assertEquals($result, "");//No output expected
 		}
 		
@@ -121,17 +121,17 @@
 		 * Tests if the move folder calls model
 		 */
 		public function testMoveFolder(){
-			$newParrentID = rand(0, 999999999);
+			$newParentID = rand(0, 999999999);
 			$folderD = rand(0, 999999999);
 			
 	        $model = $this->getMock("Model", array("moveFolder"));
 	 
 	        $model->expects($this->once())
 	                 ->method("moveFolder")
-	                 ->with($this->equalTo($newParrentID),
+	                 ->with($this->equalTo($newParentID),
 					 		$this->equalTo($folderD));
 	 
-	        $result = NoteBook::moveFolder($model, $folderD, $newParrentID);
+	        $result = NoteBook::moveFolder($model, $folderD, $newParentID);
 			
 			$this->assertEquals($result, "");//No output expected
 		}

@@ -13,18 +13,18 @@
 		 */
 		public function testRemoveNote(){
 			//setup
-				$parrentID = rand(0, 999999999);
+				$parentID = rand(0, 999999999);
 				$noteID = rand(0, 999999999);
 				
 		        $model = $this->getMock("Model", array("removeNote", "getFolder"));
 			        $model->expects($this->once())
 			                 ->method("removeNote")
 			                 ->with($this->equalTo($noteID))
-							 ->will($this->returnValue($parrentID));	
+							 ->will($this->returnValue($parentID));	
 							 
 					$model->expects($this->once())//This is call called when a new NoteBook is created
 				                 ->method("getFolder")
-				                 ->with($this->equalTo($parrentID));
+				                 ->with($this->equalTo($parentID));
 
 			$result = NoteEditor::remove($model,$noteID);
 			$this->assertEquals($result, "");//No output expected
@@ -35,7 +35,7 @@
 		 */
 		public function testMoveNote(){
 			//setup
-				$newParrentID = rand(0, 999999999);
+				$newParentID = rand(0, 999999999);
 				$noteID = rand(0, 999999999);
 				
 		        $model = $this->getMock("Model", array("moveNote"));
@@ -43,9 +43,9 @@
 		        $model->expects($this->once())
 		                 ->method("moveNote")
 		                 ->with($this->equalTo($noteID),
-						 		$this->equalTo($newParrentID));
+						 		$this->equalTo($newParentID));
 			
-			$result = NoteEditor::moveNote($model,$noteID, $newParrentID);
+			$result = NoteEditor::moveNote($model,$noteID, $newParentID);
 			$this->assertEquals($result, "");//No output expected
 		}
 		

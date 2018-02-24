@@ -88,14 +88,14 @@ Sample Folder JSON object with note and subfolder included
 ```
     {
        "id": "1",
-       "parrentFolderID": null,
+       "parentFolderID": null,
        "name": "Test",
        "userID": "1",
        "foldersInside":
        [
            {
                "id": "2",
-               "parrentFolderID": "1",
+               "parentFolderID": "1",
                "name": "Test",
                "userID": "1",
                "foldersInside": null,

@@ -41,7 +41,7 @@
 			foreach ($results as $result) {
 				$folder = new \model\dataTypes\Folder();
 				$folder->id=$result["id"];
-				$folder->parrentFolderID=$result["parrentFolderID"];
+				$folder->parentFolderID=$result["parentFolderID"];
 				$folder->name=html_entity_decode($result["name"], ENT_QUOTES);
 				$folder->userID=$result["userID"];
 			
@@ -107,7 +107,7 @@
 		public function searchFolders($search, $userID){
 			$returnArray = array();
 			return Core::query("SELECT 	id, 
-										parrentFolderID, 
+										parentFolderID, 
 										name, 
 										userID 
 								FROM folder 
@@ -181,7 +181,7 @@
          * @return - the new folder
          */
 		public function saveFolder($folder){
-            Core::query("INSERT INTO folder(parrentFolderID, name, userID) VALUES(?,?,?)",array($folder->parrentFolderID,htmlentities($folder->name),$folder->userID));
+            Core::query("INSERT INTO folder(parentFolderID, name, userID) VALUES(?,?,?)",array($folder->parentFolderID,htmlentities($folder->name),$folder->userID));
             return $this->getFolder(Core::getInsertID());
         }
 		
@@ -192,10 +192,10 @@
          */
         public function updateFolder($folder){
             Core::query("UPDATE folder SET 
-                            parrentFolderID = ?, 
+                            parentFolderID = ?, 
                             name = ?
                          WHERE id = ?", 
-                         array( $folder->parrentFolderID,
+                         array( $folder->parentFolderID,
                                 htmlentities($folder->name),
                                 $folder->id));
             return $this->getFolder($folder->id);
@@ -206,12 +206,12 @@
 		 * @return - the folder content
 		 */
 		public function getFolder($folderID){
-			$result = Core::query("SELECT id, parrentFolderID, name, userID FROM folder WHERE id = ?",array($folderID));
+			$result = Core::query("SELECT id, parentFolderID, name, userID FROM folder WHERE id = ?",array($folderID));
 
             if(count($result)==1){
                 $folder = new \model\dataTypes\Folder();
                 $folder->id = $result[0]["id"];
-                $folder->parrentFolderID = $result[0]["parrentFolderID"];
+                $folder->parentFolderID = $result[0]["parentFolderID"];
                 $folder->name = html_entity_decode($result[0]["name"], ENT_QUOTES);
                 $folder->userID = $result[0]["userID"];
                 return $folder;
@@ -228,9 +228,9 @@
 		public function getSubFolders($folderID, $userID){
 		    $returnArray = array();
 		    if($folderID!=null)
-		        $results = Core::query("SELECT id, parrentFolderID, name, userID FROM folder WHERE parrentFolderID = ? ORDER BY name", array($folderID));
+		        $results = Core::query("SELECT id, parentFolderID, name, userID FROM folder WHERE parentFolderID = ? ORDER BY name", array($folderID));
             else 
-                $results = Core::query("SELECT id, parrentFolderID, name, userID FROM folder WHERE parrentFolderID IS NULL AND userID=? ORDER BY name", array($userID));
+                $results = Core::query("SELECT id, parentFolderID, name, userID FROM folder WHERE parentFolderID IS NULL AND userID=? ORDER BY name", array($userID));
             
             return self::folderListFactory($results);
 		}
